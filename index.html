@@ -394,6 +394,84 @@ section{padding:88px 0;position:relative;}
 .nav-item svg{width:18px;height:18px;}
 .nav-item.active{color:var(--navy-deep);}
 
+/* ---------- match / gear detail sheets ---------- */
+.demo-modal .sheet-scroll{max-height:72vh;overflow-y:auto;text-align:left;padding-right:2px;}
+.demo-modal .sheet-scroll::-webkit-scrollbar{width:3px;}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.sheet-head h5{font-size:14.5px;font-weight:900;color:var(--navy-deep);margin:0;}
+.sheet-close{width:26px;height:26px;border-radius:50%;background:#F1F5F9;border:none;color:var(--sub);font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.detail-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #F1F5F9;font-size:11.5px;}
+.detail-row .dl{color:var(--sub);font-weight:700;}
+.detail-row .dv{color:var(--ink);font-weight:800;text-align:right;}
+.detail-score-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:100px;font-weight:900;font-size:12px;color:#fff;margin-bottom:12px;}
+.set-history-card{background:#F8FAFC;border:1px solid var(--outline);border-radius:12px;padding:9px 12px;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.set-history-card .sn{font-size:10.5px;font-weight:700;color:var(--sub);}
+.set-history-card .sv{font-size:13px;font-weight:900;color:var(--navy);}
+.detail-actions{display:flex;gap:8px;margin-top:16px;}
+.btn-danger-full{flex:1;border:none;background:#FEE2E2;color:var(--lose-text);padding:11px;border-radius:12px;font-weight:800;font-size:11.5px;}
+.btn-secondary-half{flex:1;border:1.4px solid var(--outline);background:#fff;color:var(--navy-deep);padding:11px;border-radius:12px;font-weight:800;font-size:11.5px;}
+
+/* games editor (set-by-set score entry) */
+.game-row-card{background:#fff;border:1px solid var(--outline);border-radius:14px;padding:10px 12px;margin-bottom:8px;}
+.game-row-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.game-row-top .gt{font-size:11px;font-weight:800;color:var(--navy);}
+.game-row-top .gdel{font-size:10px;color:var(--lose-text);font-weight:700;background:none;border:none;padding:2px 4px;}
+.game-score-cols{display:flex;align-items:center;justify-content:space-between;}
+.game-score-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;}
+.game-score-col .who{font-size:9.5px;font-weight:800;color:var(--sub);}
+.game-score-col .row{display:flex;align-items:center;gap:6px;}
+.game-score-col .stepbtn{width:26px;height:26px;border-radius:50%;border:1.4px solid var(--outline);background:#fff;font-weight:900;color:var(--navy-deep);display:flex;align-items:center;justify-content:center;font-size:13px;}
+.game-score-col .val{width:24px;text-align:center;font-weight:900;font-size:14px;}
+.vs-mini{font-size:9.5px;font-weight:800;color:var(--outline);padding:0 6px;}
+.add-set-row{display:flex;gap:8px;margin:4px 0 4px;}
+.btn-add-set{flex:1;border:none;background:var(--navy-deep);color:#fff;padding:10px;border-radius:12px;font-weight:800;font-size:11.5px;}
+.btn-remove-set{flex:1;border:1.4px solid var(--outline);background:#fff;color:var(--lose-text);padding:10px;border-radius:12px;font-weight:800;font-size:11.5px;}
+.set-max-note{font-size:9.5px;color:var(--sub);margin-top:4px;}
+
+/* rival (opponent strength) feature */
+.rival-chip-row{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;}
+.rival-chip{flex-shrink:0;font-size:10.5px;font-weight:800;padding:7px 12px;border-radius:100px;border:1.4px solid var(--outline);color:var(--sub);background:#fff;white-space:nowrap;}
+.rival-chip.on{background:var(--primary-container);border-color:var(--navy);color:var(--navy-deep);}
+.rival-header{border-radius:18px;padding:15px;margin-top:10px;}
+.rival-header-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+.rival-name{font-size:15px;font-weight:900;color:var(--ink);}
+.rival-conf{font-size:10.5px;font-weight:700;color:#D97706;margin-top:3px;}
+.rival-dom-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:100px;font-size:10px;font-weight:800;margin-top:8px;}
+.rival-dom-badge .dot{width:7px;height:7px;border-radius:50%;}
+.rival-gap-badge{border-radius:14px;padding:8px 12px;text-align:center;color:#fff;flex-shrink:0;}
+.rival-gap-badge .gl{font-size:8px;font-weight:800;opacity:0.9;}
+.rival-gap-badge .gv{font-size:24px;font-weight:900;line-height:1.1;}
+.rival-gap-badge .gu{font-size:8px;opacity:0.85;}
+.rival-gap-label{margin-top:10px;border-radius:10px;padding:6px 10px;text-align:center;font-size:11px;font-weight:800;}
+.ai-insight-box{background:#EFF6FF;border:1px solid #BFDBFE;border-radius:14px;padding:12px;margin-top:10px;}
+.ai-insight-box .tt{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:#1E40AF;margin-bottom:5px;}
+.ai-insight-box p{font-size:10.5px;color:#1E3A8A;line-height:1.7;margin:0;}
+.rival-metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:12px;}
+.rmetric-box{background:#F8FAFC;border-radius:11px;padding:8px 10px;}
+.rmetric-box .mt{font-size:9px;color:var(--sub);}
+.rmetric-box .mv{font-size:12px;font-weight:900;color:var(--ink);margin-top:2px;}
+.rmetric-box .ms{font-size:8.5px;color:var(--navy);margin-top:1px;}
+.radar-wrap{margin-top:14px;text-align:center;}
+.radar-wrap svg{width:100%;max-width:230px;}
+.radar-axis-note{background:#F8FAFC;border-radius:10px;padding:9px 10px;margin-top:8px;font-size:9px;color:#555;line-height:1.7;text-align:left;}
+.trend-strip{display:flex;gap:5px;overflow-x:auto;margin-top:12px;padding-bottom:4px;}
+.trend-dot-col{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:4px;width:34px;}
+.trend-dot{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;color:#fff;}
+.trend-dot-col .dl{font-size:7.5px;color:var(--sub);font-weight:700;}
+.rival-empty{text-align:center;padding:20px 10px;font-size:11px;color:var(--sub);}
+
+/* gear detail */
+.gear-status-toggle{display:flex;gap:6px;margin-top:8px;}
+.gear-status-toggle button{flex:1;padding:8px;border-radius:10px;font-size:10.5px;font-weight:800;border:1.4px solid var(--outline);background:#fff;color:var(--sub);}
+.gear-status-toggle button.on{background:var(--navy-deep);border-color:var(--navy-deep);color:#fff;}
+.gear-pred-box{border-radius:12px;padding:10px 12px;margin-top:10px;font-size:10.5px;font-weight:700;line-height:1.6;}
+.maint-item{background:#F8FAFC;border-radius:11px;padding:9px 11px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+.maint-item .ml{font-size:10.5px;font-weight:800;color:var(--ink);}
+.maint-item .ms2{font-size:9.5px;color:var(--sub);margin-top:2px;}
+.maint-item .mdel{background:none;border:none;color:var(--lose-text);font-size:14px;flex-shrink:0;}
+.date-input{width:100%;border:1.4px solid var(--outline);border-radius:11px;padding:9px 11px;font-size:12.5px;font-family:inherit;background:#fff;color:var(--ink);}
+.gear-card{cursor:pointer;}
+
 /* toast */
 .toast{
   position:absolute;left:14px;right:14px;bottom:78px;
@@ -694,25 +772,13 @@ footer .fcopy{font-size:11px;color:#A3ADB8;}
                   <input class="field-input" id="in-tournament" placeholder="例）市民大会 予選">
                 </div>
                 <div style="margin-top:14px;">
-                  <span class="field-label">スコア登録</span>
-                  <div style="display:flex;flex-direction:column;gap:8px;">
-                    <div class="score-row">
-                      <span class="who">自分</span>
-                      <div class="stepper">
-                        <button data-role="dec" data-who="me">−</button>
-                        <span class="num" id="score-me">0</span>
-                        <button data-role="inc" data-who="me">+</button>
-                      </div>
-                    </div>
-                    <div class="score-row">
-                      <span class="who">相手</span>
-                      <div class="stepper">
-                        <button data-role="dec" data-who="opp">−</button>
-                        <span class="num" id="score-opp">0</span>
-                        <button data-role="inc" data-who="opp">+</button>
-                      </div>
-                    </div>
+                  <span class="field-label">スコア登録（セットごとに入力）</span>
+                  <div id="games-editor"></div>
+                  <div class="add-set-row">
+                    <button class="btn-add-set" id="btn-add-game">＋ セットを追加</button>
+                    <button class="btn-remove-set" id="btn-remove-game" style="display:none;">最後のセットを削除</button>
                   </div>
+                  <div class="set-max-note" id="set-max-note"></div>
                 </div>
                 <button class="btn-primary-full" id="btn-save-match" style="margin-top:16px;">この試合を保存する</button>
               </div>
@@ -730,9 +796,23 @@ footer .fcopy{font-size:11px;color:#A3ADB8;}
                   <span class="field-label">名称</span>
                   <input class="field-input" id="in-gear-name" placeholder="例）アストロクス99プロ">
                 </div>
+                <div style="margin-top:12px;" id="gear-string-field">
+                  <span class="field-label">ガット/ストリング名</span>
+                  <input class="field-input" id="in-gear-string" placeholder="例）BG65">
+                </div>
+                <div style="display:flex;gap:8px;margin-top:12px;" id="gear-tension-field">
+                  <div style="flex:1;">
+                    <span class="field-label">テンション</span>
+                    <input class="field-input" id="in-gear-tension" placeholder="24" inputmode="numeric">
+                  </div>
+                  <div style="flex:1;">
+                    <span class="field-label">単位</span>
+                    <input class="field-input" id="in-gear-unit" placeholder="lbs" value="lbs">
+                  </div>
+                </div>
                 <div style="margin-top:12px;">
-                  <span class="field-label">テンション / 使用開始日</span>
-                  <input class="field-input" id="in-gear-tension" placeholder="例）24lbs・2026/07/01〜">
+                  <span class="field-label">使用開始日（最終メンテナンス日）</span>
+                  <input class="date-input" type="date" id="in-gear-date">
                 </div>
                 <button class="btn-primary-full" id="btn-save-gear" style="margin-top:16px;">ギアを登録する</button>
                 <div class="section-title-row" style="margin-top:20px;"><h4>登録済みギア</h4></div>
@@ -770,6 +850,13 @@ footer .fcopy{font-size:11px;color:#A3ADB8;}
                   <div class="bullet-top"><span>ホーム開催時の勝率</span><span id="b3t">0%</span></div>
                   <div class="bullet-track"><div class="bullet-fill" id="b3" style="width:0%;background:#F5B301"></div></div>
                 </div>
+              </div>
+
+              <!-- RIVAL (対戦相手 実力差分析) -->
+              <div class="card">
+                <div class="sec-label">🎯 ライバル分析（対戦相手 実力差）</div>
+                <div class="rival-chip-row" id="rival-chip-row" style="margin-top:10px;"></div>
+                <div id="rival-body"></div>
               </div>
             </div>
 
@@ -815,6 +902,28 @@ footer .fcopy{font-size:11px;color:#A3ADB8;}
                 <span class="store-text"><span class="s1">GET IT ON</span><span class="s2">Google Play で今すぐ入手</span></span>
               </a>
               <button class="btn-ghost-full" id="conv-close">体験版を続ける</button>
+            </div>
+          </div>
+
+          <!-- match detail modal -->
+          <div class="demo-modal" id="match-detail-modal">
+            <div class="sheet">
+              <div class="sheet-head">
+                <h5>試合詳細</h5>
+                <button class="sheet-close" id="match-detail-close">✕</button>
+              </div>
+              <div class="sheet-scroll" id="match-detail-body"></div>
+            </div>
+          </div>
+
+          <!-- gear detail modal -->
+          <div class="demo-modal" id="gear-detail-modal">
+            <div class="sheet">
+              <div class="sheet-head">
+                <h5>ギア詳細・メンテナンス</h5>
+                <button class="sheet-close" id="gear-detail-close">✕</button>
+              </div>
+              <div class="sheet-scroll" id="gear-detail-body"></div>
             </div>
           </div>
 
@@ -1014,40 +1123,88 @@ footer .fcopy{font-size:11px;color:#A3ADB8;}
     table_tennis:"卓球", pickleball:"ピックルボール"
   };
   var GEAR_LABEL = { racket:"🏸", string:"🧵", shoes:"👟" };
+  // Real-app parity: max sets/games per sport (from MatchRegisterForm.maxSetsForSport)
+  var MAX_GAMES = { badminton:3, tennis:5, soft_tennis:9, table_tennis:7, pickleball:3 };
+  // Real-app parity: condition-warning day thresholds (from DashboardView gear card logic)
+  var MAINT_THRESHOLDS = {
+    default: { warn:15, danger:22 },
+    pickleball: { warn:90, danger:180 }
+  };
+  var DOMINANCE = {
+    DOMINANT:     {label:"圧倒的優勢", color:"#16A34A"},
+    ADVANTAGE:    {label:"やや優勢",   color:"#2563EB"},
+    EVEN:         {label:"完全な互角", color:"#D97706"},
+    DISADVANTAGE: {label:"やや劣勢",   color:"#EA580C"},
+    CHALLENGING:  {label:"圧倒的劣勢", color:"#DC2626"}
+  };
+
+  var DAY_MS = 24*60*60*1000;
+  var idSeq = 1;
+  function nextId(){ return idSeq++; }
+  function daysAgo(n){ return Date.now() - n*DAY_MS; }
+  function fmtDate(ts){
+    var d = new Date(ts);
+    return d.getFullYear()+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0');
+  }
 
   var state = {
     sport: "badminton",
     gearType: "racket",
-    scoreMe: 0,
-    scoreOpp: 0,
+    games: [{me:0, opp:0}],
     matches: [
-      {sport:"badminton", opponent:"鈴木 一郎", tournament:"市民大会 予選", win:true, me:21, opp:15},
-      {sport:"badminton", opponent:"田中 陽菜", tournament:"練習試合", win:true, me:21, opp:18},
-      {sport:"badminton", opponent:"高橋 蓮", tournament:"校内リーグ", win:false, me:19, opp:21},
-      {sport:"tennis", opponent:"渡辺 涼", tournament:"地区オープン", win:true, me:6, opp:4}
+      {id:nextId(), sport:"badminton", opponent:"鈴木 一郎", tournament:"市民大会 予選", date:daysAgo(58), games:[{me:21,opp:15},{me:18,opp:21},{me:21,opp:17}]},
+      {id:nextId(), sport:"badminton", opponent:"鈴木 一郎", tournament:"練習試合", date:daysAgo(40), games:[{me:21,opp:19},{me:21,opp:16}]},
+      {id:nextId(), sport:"badminton", opponent:"田中 陽菜", tournament:"練習試合", date:daysAgo(33), games:[{me:21,opp:18},{me:21,opp:14}]},
+      {id:nextId(), sport:"badminton", opponent:"高橋 蓮", tournament:"校内リーグ", date:daysAgo(21), games:[{me:19,opp:21},{me:15,opp:21}]},
+      {id:nextId(), sport:"badminton", opponent:"鈴木 一郎", tournament:"地区大会 決勝", date:daysAgo(9), games:[{me:23,opp:21},{me:19,opp:21},{me:21,opp:18}]},
+      {id:nextId(), sport:"tennis", opponent:"渡辺 涼", tournament:"地区オープン", date:daysAgo(5), games:[{me:6,opp:4},{me:6,opp:3}]}
     ],
     gears: [
-      {type:"racket", name:"アストロクス99プロ", meta:"バドミントン・張替45日目", health:62},
-      {type:"string", name:"BG65 24lbs", meta:"張替から18日", health:84}
+      {id:nextId(), type:"racket", sport:"badminton", name:"アストロクス99プロ", stringName:"BG65", tension:24, unit:"lbs", active:true, lastMaintenanceAt:daysAgo(45), maintenances:[
+        {id:nextId(), date:daysAgo(45), stringName:"BG65", tension:24, unit:"lbs", note:"新規張り替え"}
+      ]},
+      {id:nextId(), type:"string", sport:"badminton", name:"BG65 予備セット", stringName:"BG65", tension:24, unit:"lbs", active:true, lastMaintenanceAt:daysAgo(18), maintenances:[
+        {id:nextId(), date:daysAgo(18), stringName:"BG65", tension:24, unit:"lbs", note:""}
+      ]}
     ],
-    matchesRegisteredCount: 0
+    matchesRegisteredCount: 0,
+    selectedRival: null,
+    selectedMatchId: null,
+    selectedGearId: null
   };
 
   var playerName = "佐藤 奏";
   document.getElementById('dash-name').textContent = playerName;
 
-  function fmtScoreTxt(m){ return m.me + " - " + m.opp; }
+  // ---- per-match helpers (games-based, mirrors real app's set-count win logic) ----
+  function matchGameWins(m){
+    var mine = 0, theirs = 0;
+    m.games.forEach(function(g){ if(g.me>g.opp) mine++; else if(g.opp>g.me) theirs++; });
+    return {mine:mine, theirs:theirs};
+  }
+  function matchIsWin(m){
+    var w = matchGameWins(m);
+    if(w.mine === w.theirs){
+      // tie-break: total point diff decides, mirroring the app's fallback comparison
+      var diff = m.games.reduce(function(s,g){return s+(g.me-g.opp);},0);
+      return diff >= 0;
+    }
+    return w.mine > w.theirs;
+  }
+  function matchScoreText(m){
+    return m.games.map(function(g){return g.me+'-'+g.opp;}).join(' / ');
+  }
 
   function renderStats(){
     var total = state.matches.length;
-    var wins = state.matches.filter(function(m){return m.win;}).length;
+    var wins = state.matches.filter(matchIsWin).length;
     var losses = total - wins;
     var winRate = total > 0 ? (wins/total*100) : 0;
 
-    var sorted = state.matches.slice().reverse();
+    var sorted = state.matches.slice().sort(function(a,b){return b.date-a.date;});
     var streak = 0;
     for(var i=0;i<sorted.length;i++){
-      if(sorted[i].win){ streak++; } else { break; }
+      if(matchIsWin(sorted[i])){ streak++; } else { break; }
     }
 
     document.getElementById('st-total').textContent = total;
@@ -1060,42 +1217,182 @@ footer .fcopy{font-size:11px;color:#A3ADB8;}
     document.getElementById('dash-count').textContent = '全' + total + '試合';
     document.getElementById('matches-count').textContent = '全' + total + '件';
 
-    // dashboard recent (latest 2)
     var recentEl = document.getElementById('dash-recent');
     recentEl.innerHTML = '';
     if(total === 0){
       recentEl.innerHTML = '<div class="empty-state">登録されている対戦結果がありません<br>「試合」タブから記録しましょう</div>';
     } else {
-      state.matches.slice(-2).reverse().forEach(function(m){
-        recentEl.appendChild(buildMatchCard(m));
-      });
+      sorted.slice(0,2).forEach(function(m){ recentEl.appendChild(buildMatchCard(m)); });
     }
 
-    // full matches list
     var listEl = document.getElementById('matches-list');
     listEl.innerHTML = '';
     if(total === 0){
       listEl.innerHTML = '<div class="empty-state">まだ試合が登録されていません</div>';
     } else {
-      state.matches.slice().reverse().forEach(function(m){
-        listEl.appendChild(buildMatchCard(m));
-      });
+      sorted.forEach(function(m){ listEl.appendChild(buildMatchCard(m)); });
     }
 
     renderAnalytics(wins, losses, total);
+    renderRivalChips();
   }
 
   function buildMatchCard(m){
+    var win = matchIsWin(m);
     var card = document.createElement('div');
-    card.className = 'match-card ' + (m.win ? 'win' : 'lose');
+    card.className = 'match-card ' + (win ? 'win' : 'lose');
     card.innerHTML =
       '<div class="match-top">' +
-        '<span class="badge-wl ' + (m.win?'win':'lose') + '">' + (m.win?'WIN':'LOSE') + '</span>' +
+        '<span class="badge-wl ' + (win?'win':'lose') + '">' + (win?'WIN':'LOSE') + '</span>' +
         '<span class="match-title">' + (m.tournament || '練習・一般対戦') + '</span>' +
       '</div>' +
-      '<div class="match-sub">' + SPORT_LABEL[m.sport] + ' ・ vs ' + m.opponent + '</div>' +
-      '<div class="match-score">' + fmtScoreTxt(m) + '</div>';
+      '<div class="match-sub">' + SPORT_LABEL[m.sport] + ' ・ vs ' + m.opponent + ' ・ ' + fmtDate(m.date) + '</div>' +
+      '<div class="match-score">' + matchScoreText(m) + '</div>';
+    card.addEventListener('click', function(){ openMatchDetail(m.id); });
     return card;
+  }
+
+  // ================= GAMES EDITOR (set-by-set score entry) =================
+  function renderGamesEditor(){
+    var wrap = document.getElementById('games-editor');
+    wrap.innerHTML = '';
+    state.games.forEach(function(g, idx){
+      var row = document.createElement('div');
+      row.className = 'game-row-card';
+      row.innerHTML =
+        '<div class="game-row-top"><span class="gt">第' + (idx+1) + 'セット</span>' +
+          (state.games.length>1 ? '<button class="gdel" data-idx="'+idx+'">✕ このセットを削除</button>' : '') +
+        '</div>' +
+        '<div class="game-score-cols">' +
+          '<div class="game-score-col">' +
+            '<span class="who">自分</span>' +
+            '<div class="row">' +
+              '<button class="stepbtn" data-idx="'+idx+'" data-who="me" data-role="dec">−</button>' +
+              '<span class="val" data-idx="'+idx+'" data-who="me">'+g.me+'</span>' +
+              '<button class="stepbtn" data-idx="'+idx+'" data-who="me" data-role="inc">+</button>' +
+            '</div>' +
+          '</div>' +
+          '<span class="vs-mini">VS</span>' +
+          '<div class="game-score-col">' +
+            '<span class="who">対戦相手</span>' +
+            '<div class="row">' +
+              '<button class="stepbtn" data-idx="'+idx+'" data-who="opp" data-role="dec">−</button>' +
+              '<span class="val" data-idx="'+idx+'" data-who="opp">'+g.opp+'</span>' +
+              '<button class="stepbtn" data-idx="'+idx+'" data-who="opp" data-role="inc">+</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      wrap.appendChild(row);
+    });
+
+    wrap.querySelectorAll('.stepbtn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var idx = parseInt(btn.getAttribute('data-idx'),10);
+        var who = btn.getAttribute('data-who');
+        var role = btn.getAttribute('data-role');
+        var delta = role === 'inc' ? 1 : -1;
+        var cur = state.games[idx][who];
+        state.games[idx][who] = Math.max(0, Math.min(99, cur+delta));
+        wrap.querySelector('.val[data-idx="'+idx+'"][data-who="'+who+'"]').textContent = state.games[idx][who];
+      });
+    });
+    wrap.querySelectorAll('.gdel').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var idx = parseInt(btn.getAttribute('data-idx'),10);
+        state.games.splice(idx,1);
+        renderGamesEditor();
+        updateAddSetControls();
+      });
+    });
+    updateAddSetControls();
+  }
+
+  function updateAddSetControls(){
+    var max = MAX_GAMES[state.sport] || 5;
+    var addBtn = document.getElementById('btn-add-game');
+    var delBtn = document.getElementById('btn-remove-game');
+    addBtn.disabled = state.games.length >= max;
+    addBtn.style.opacity = addBtn.disabled ? '0.45' : '1';
+    delBtn.style.display = state.games.length > 1 ? 'block' : 'none';
+    document.getElementById('set-max-note').textContent =
+      '※ ' + SPORT_LABEL[state.sport] + ' の最大セット数は ' + max + ' セットです。';
+  }
+
+  document.getElementById('btn-add-game').addEventListener('click', function(){
+    var max = MAX_GAMES[state.sport] || 5;
+    if(state.games.length < max){
+      state.games.push({me:0, opp:0});
+      renderGamesEditor();
+    }
+  });
+  document.getElementById('btn-remove-game').addEventListener('click', function(){
+    if(state.games.length > 1){
+      state.games.pop();
+      renderGamesEditor();
+      updateAddSetControls();
+    }
+  });
+
+  // ================= MATCH DETAIL MODAL =================
+  function openMatchDetail(matchId){
+    var m = state.matches.find(function(x){return x.id===matchId;});
+    if(!m) return;
+    state.selectedMatchId = matchId;
+    var win = matchIsWin(m);
+    var w = matchGameWins(m);
+    var body = document.getElementById('match-detail-body');
+    var html = '';
+    html += '<div class="detail-score-badge" style="background:'+(win?'var(--win-text)':'var(--lose-text)')+'">' +
+              (win?'🏆 WIN':'💦 LOSE') + ' ・ セット ' + w.mine + '-' + w.theirs + '</div>';
+    html += '<div class="detail-row"><span class="dl">競技</span><span class="dv">'+SPORT_LABEL[m.sport]+'</span></div>';
+    html += '<div class="detail-row"><span class="dl">対戦相手</span><span class="dv">'+m.opponent+'</span></div>';
+    html += '<div class="detail-row"><span class="dl">大会名</span><span class="dv">'+(m.tournament||'練習・一般対戦')+'</span></div>';
+    html += '<div class="detail-row"><span class="dl">試合日</span><span class="dv">'+fmtDate(m.date)+'</span></div>';
+    html += '<div style="margin-top:14px;font-size:11px;font-weight:800;color:var(--navy);">スコア履歴</div><div style="margin-top:8px;">';
+    m.games.forEach(function(g, idx){
+      html += '<div class="set-history-card"><span class="sn">第'+(idx+1)+'セット</span><span class="sv">'+g.me+' - '+g.opp+'</span></div>';
+    });
+    html += '</div>';
+    html += '<div class="detail-actions">' +
+              '<button class="btn-secondary-half" id="match-detail-share">📸 結果をシェア</button>' +
+              '<button class="btn-danger-full" id="match-detail-delete">🗑 削除する</button>' +
+            '</div>';
+    body.innerHTML = html;
+
+    document.getElementById('match-detail-share').addEventListener('click', function(){
+      showToast('📸 本物のアプリでは結果画像を自動生成できます');
+    });
+    document.getElementById('match-detail-delete').addEventListener('click', function(){
+      state.matches = state.matches.filter(function(x){return x.id!==matchId;});
+      closeModal('match-detail-modal');
+      renderStats();
+      showToast('🗑 試合を削除しました');
+    });
+
+    openModal('match-detail-modal');
+  }
+  document.getElementById('match-detail-close').addEventListener('click', function(){ closeModal('match-detail-modal'); });
+
+  function openModal(id){ document.getElementById(id).classList.add('show'); }
+  function closeModal(id){ document.getElementById(id).classList.remove('show'); }
+
+  // ================= GEAR MANAGEMENT (full parity: status / maintenance history) =================
+  function gearElapsedDays(g){
+    return Math.max(0, Math.floor((Date.now()-g.lastMaintenanceAt)/DAY_MS));
+  }
+  function gearCondition(g){
+    var th = g.sport === 'pickleball' ? MAINT_THRESHOLDS.pickleball : MAINT_THRESHOLDS.default;
+    var days = gearElapsedDays(g);
+    if(!g.active){ return {level:'off', color:'#94A3B8', bg:'#F5F5F5', text:'⏸️ 保管中（交換推奨の警告対象外）'}; }
+    if(days >= th.danger){
+      return {level:'danger', color:'#EC4899', bg:'#F3E7FF',
+        text: g.sport==='pickleball' ? '⚠️ 予測：パドルコア劣化・ハニカム崩壊リスクあり' : '⚠️ 予測：コントロール精度低下傾向 / 要張替'};
+    }
+    if(days >= th.warn){
+      return {level:'warn', color:'#EAB308', bg:'#FFF9E6',
+        text: g.sport==='pickleball' ? '⚡ 使用期間3ヶ月以上経過。打感や剥がれに注意' : '⚡ そろそろ張替時期です。コンディションに注意'};
+    }
+    return {level:'good', color:'#10B981', bg:'#FFFFFF', text:'✨ コンディション良好です'};
   }
 
   function renderGear(){
@@ -1106,18 +1403,336 @@ footer .fcopy{font-size:11px;color:#A3ADB8;}
       return;
     }
     state.gears.slice().reverse().forEach(function(g){
-      var barColor = g.health > 60 ? '#10B981' : (g.health > 30 ? '#F5B301' : '#EF4444');
+      var cond = gearCondition(g);
+      var days = gearElapsedDays(g);
       var card = document.createElement('div');
       card.className = 'gear-card';
+      card.style.borderColor = cond.color;
       card.innerHTML =
         '<div class="gear-ico">' + (GEAR_LABEL[g.type]||'🎾') + '</div>' +
         '<div style="flex:1;">' +
-          '<div class="gear-name">' + g.name + '</div>' +
-          '<div class="gear-meta">' + g.meta + '</div>' +
-          '<div class="gear-health"><div class="gear-health-track"><div class="gear-health-fill" style="width:' + g.health + '%;background:' + barColor + '"></div></div></div>' +
+          '<div class="gear-name">' + g.name + (g.active?'':' （不使用）') + '</div>' +
+          '<div class="gear-meta">' + SPORT_LABEL[g.sport] + ' ・ 最終メンテから' + days + '日</div>' +
+          '<div class="gear-health"><div class="gear-health-track"><div class="gear-health-fill" style="width:' + Math.max(4,100-Math.min(100,days)) + '%;background:' + cond.color + '"></div></div></div>' +
         '</div>';
+      card.addEventListener('click', function(){ openGearDetail(g.id); });
       el.appendChild(card);
     });
+  }
+
+  function openGearDetail(gearId){
+    var g = state.gears.find(function(x){return x.id===gearId;});
+    if(!g) return;
+    state.selectedGearId = gearId;
+    var cond = gearCondition(g);
+    var days = gearElapsedDays(g);
+    var body = document.getElementById('gear-detail-body');
+
+    var html = '';
+    html += '<div class="detail-row"><span class="dl">名称</span><span class="dv">'+g.name+'</span></div>';
+    html += '<div class="detail-row"><span class="dl">競技</span><span class="dv">'+SPORT_LABEL[g.sport]+'</span></div>';
+    if(g.type !== 'shoes'){
+      html += '<div class="detail-row"><span class="dl">ガット/ストリング</span><span class="dv">'+(g.stringName||'--')+'</span></div>';
+      html += '<div class="detail-row"><span class="dl">テンション</span><span class="dv">'+(g.tension?g.tension+' '+g.unit:'--')+'</span></div>';
+    }
+    html += '<div class="detail-row"><span class="dl">最終メンテナンス日</span><span class="dv">'+fmtDate(g.lastMaintenanceAt)+'（'+days+'日経過）</span></div>';
+
+    html += '<div class="gear-status-toggle">' +
+              '<button data-active="1" class="'+(g.active?'on':'')+'">使用中 🟢</button>' +
+              '<button data-active="0" class="'+(!g.active?'on':'')+'">不使用 🔴</button>' +
+            '</div>';
+    html += '<div class="gear-pred-box" style="background:'+cond.bg+';color:'+cond.color+';border:1px solid '+cond.color+'55;">'+cond.text+'</div>';
+
+    html += '<div style="margin-top:16px;font-size:11px;font-weight:800;color:var(--navy);">📅 メンテナンス履歴（'+g.maintenances.length+'件）</div><div style="margin-top:8px;">';
+    if(g.maintenances.length===0){
+      html += '<div class="empty-state">登録されている記録はありません</div>';
+    } else {
+      g.maintenances.slice().sort(function(a,b){return b.date-a.date;}).forEach(function(mt){
+        var spec = g.type!=='shoes' ? ((mt.stringName||'--')+' / '+(mt.tension?mt.tension+mt.unit:'--')) : '交換記録';
+        html += '<div class="maint-item"><div><div class="ml">📅 '+fmtDate(mt.date)+'</div><div class="ms2">'+spec+(mt.note?' ・ '+mt.note:'')+'</div></div>' +
+                '<button class="mdel" data-mid="'+mt.id+'">✕</button></div>';
+      });
+    }
+    html += '</div>';
+
+    html += '<div style="margin-top:16px;font-size:11px;font-weight:800;color:var(--navy);">＋ メンテナンスを新しく記録する</div>';
+    html += '<div style="margin-top:8px;"><span class="field-label">実施日</span><input type="date" class="date-input" id="maint-date" value="'+new Date().toISOString().slice(0,10)+'"></div>';
+    if(g.type !== 'shoes'){
+      html += '<div style="margin-top:10px;"><span class="field-label">ガット/ストリング名</span><input class="field-input" id="maint-string" placeholder="例）BG65" value="'+(g.stringName||'')+'"></div>';
+      html += '<div style="display:flex;gap:8px;margin-top:10px;">' +
+                '<div style="flex:1;"><span class="field-label">テンション</span><input class="field-input" id="maint-tension" placeholder="24" value="'+(g.tension||'')+'"></div>' +
+                '<div style="flex:1;"><span class="field-label">単位</span><input class="field-input" id="maint-unit" value="'+(g.unit||'lbs')+'"></div>' +
+              '</div>';
+    }
+    html += '<div style="margin-top:10px;"><span class="field-label">作業メモ（任意）</span><input class="field-input" id="maint-note" placeholder="例）グリップテープ交換"></div>';
+    html += '<button class="btn-primary-full" id="btn-add-maint" style="margin-top:12px;">この記録を追加してカウントをリセット</button>';
+
+    body.innerHTML = html;
+
+    body.querySelectorAll('.gear-status-toggle button').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        g.active = btn.getAttribute('data-active') === '1';
+        renderGear();
+        openGearDetail(gearId);
+      });
+    });
+    body.querySelectorAll('.mdel').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var mid = parseInt(btn.getAttribute('data-mid'),10);
+        g.maintenances = g.maintenances.filter(function(x){return x.id!==mid;});
+        renderGear();
+        openGearDetail(gearId);
+      });
+    });
+    document.getElementById('btn-add-maint').addEventListener('click', function(){
+      var dateVal = document.getElementById('maint-date').value;
+      var ts = dateVal ? new Date(dateVal+'T00:00:00').getTime() : Date.now();
+      var stringName = g.type!=='shoes' ? document.getElementById('maint-string').value.trim() : '';
+      var tension = g.type!=='shoes' ? parseInt(document.getElementById('maint-tension').value,10) || null : null;
+      var unit = g.type!=='shoes' ? document.getElementById('maint-unit').value.trim() || 'lbs' : '';
+      var note = document.getElementById('maint-note').value.trim();
+      g.maintenances.push({id:nextId(), date:ts, stringName:stringName, tension:tension, unit:unit, note:note});
+      if(ts >= g.lastMaintenanceAt){
+        g.lastMaintenanceAt = ts;
+        if(stringName) g.stringName = stringName;
+        if(tension) g.tension = tension;
+        if(unit) g.unit = unit;
+      }
+      renderGear();
+      openGearDetail(gearId);
+      showToast('🔧 メンテナンス記録を追加しました');
+    });
+
+    openModal('gear-detail-modal');
+  }
+  document.getElementById('gear-detail-close').addEventListener('click', function(){ closeModal('gear-detail-modal'); });
+
+  // ================= RIVAL (対戦相手 実力差分析) =================
+  // Ports the weighting/labeling logic from MatchAnalysisEngine.calculateRelativeStrength
+  function computeRival(opponentName){
+    var opMatches = state.matches.filter(function(m){return m.opponent===opponentName;})
+      .slice().sort(function(a,b){return a.date-b.date;});
+    var matchCount = opMatches.length;
+    var wins=0, losses=0;
+    var allGames = [];
+    opMatches.forEach(function(m){
+      if(matchIsWin(m)) wins++; else losses++;
+      m.games.forEach(function(g){ allGames.push(g); });
+    });
+    var winRate = matchCount>0 ? (wins/matchCount*100) : 0;
+
+    var setsWon=0, setsLost=0, scoreSum=0, concededSum=0, closeCount=0, dominantCount=0, crushingCount=0;
+    var minDiff = Infinity, closestScore = '--';
+    var diffs = [];
+    allGames.forEach(function(g){
+      if(g.me>g.opp) setsWon++; else if(g.opp>g.me) setsLost++;
+      scoreSum += g.me; concededSum += g.opp;
+      var diff = g.me-g.opp;
+      diffs.push(diff);
+      if(Math.abs(diff) <= 2) closeCount++;
+      if(diff >= 8) dominantCount++;
+      if(diff <= -8) crushingCount++;
+      if(Math.abs(diff) < minDiff){ minDiff = Math.abs(diff); closestScore = g.me+'-'+g.opp; }
+    });
+    var totalGames = allGames.length || 1;
+    var setWinRate = (setsWon/(setsWon+setsLost||1))*100;
+    var avgScorePerSet = scoreSum/totalGames;
+    var avgConcededPerSet = concededSum/totalGames;
+    var avgPointDiffPerSet = avgScorePerSet-avgConcededPerSet;
+    var closeSetRate = (closeCount/totalGames)*100;
+    var dominantSetRate = (dominantCount/totalGames)*100;
+    var crushingLossRate = (crushingCount/totalGames)*100;
+
+    var meanDiff = diffs.reduce(function(a,b){return a+b;},0)/(diffs.length||1);
+    var variance = diffs.reduce(function(a,b){return a+Math.pow(b-meanDiff,2);},0)/(diffs.length||1);
+    var stdDev = Math.sqrt(variance);
+    var stabilityIndex = Math.max(0, 100 - Math.min(100, stdDev*6));
+
+    var firstDiff = opMatches.length ? (opMatches[0].games.reduce(function(s,g){return s+(g.me-g.opp);},0)/opMatches[0].games.length) : 0;
+    var lastDiff = opMatches.length ? (opMatches[opMatches.length-1].games.reduce(function(s,g){return s+(g.me-g.opp);},0)/opMatches[opMatches.length-1].games.length) : 0;
+    var growthRate = lastDiff - firstDiff;
+
+    var recent5 = opMatches.slice(-5);
+    var recent10 = opMatches.slice(-10);
+    function recentStats(arr){
+      if(arr.length===0) return {winRate:0, pointDiff:0};
+      var w = arr.filter(matchIsWin).length;
+      var pd = arr.reduce(function(s,m){ return s + m.games.reduce(function(s2,g){return s2+(g.me-g.opp);},0)/m.games.length; },0)/arr.length;
+      return {winRate:(w/arr.length)*100, pointDiff:pd};
+    }
+    var r5 = recentStats(recent5), r10 = recentStats(recent10);
+
+    // relative strength gap (weighted composite, mirrors app weighting order of magnitude)
+    var pointParity = Math.max(0, 1 - Math.abs(avgPointDiffPerSet)/12);
+    var setParity = 1 - Math.abs(setWinRate-50)/50;
+    var rawGap = (setParity*0.35 + pointParity*0.30 + (closeSetRate/100)*0.20 + (1-Math.min(1,Math.abs(growthRate)/10))*0.15) * 100;
+    var relativeStrengthGap = Math.max(0, Math.min(100, Math.round(rawGap)));
+
+    var gapLabel, gapColor;
+    if(relativeStrengthGap>=95){ gapLabel='ほぼ互角（接戦ライバル）'; gapColor='#10B981'; }
+    else if(relativeStrengthGap>=85){ gapLabel='拮抗した実力差（近接）'; gapColor='#06B6D4'; }
+    else if(relativeStrengthGap>=70){ gapLabel='明確な実力差あり'; gapColor='#3B82F6'; }
+    else if(relativeStrengthGap>=50){ gapLabel='かなり実力差あり'; gapColor='#F59E0B'; }
+    else { gapLabel='一方的な実力差（圧倒）'; gapColor='#EF4444'; }
+
+    var dominanceKey;
+    if(relativeStrengthGap>=95) dominanceKey='EVEN';
+    else if(avgPointDiffPerSet>=4 || winRate>=80) dominanceKey='DOMINANT';
+    else if(avgPointDiffPerSet>=1 || winRate>=55) dominanceKey='ADVANTAGE';
+    else if(avgPointDiffPerSet<=-4 || winRate<=20) dominanceKey='CHALLENGING';
+    else if(avgPointDiffPerSet<=-1 || winRate<=45) dominanceKey='DISADVANTAGE';
+    else dominanceKey='EVEN';
+
+    var confidenceStars = matchCount>=20?5 : matchCount>=10?4 : matchCount>=5?3 : matchCount>=2?2 : 1;
+    var confidenceText = '★'.repeat(confidenceStars)+'☆'.repeat(5-confidenceStars)+' ('+matchCount+'試合分析)';
+
+    var radar = {
+      attack: Math.max(0,Math.min(100, avgScorePerSet/15*100)),
+      defense: Math.max(0,Math.min(100, (15-avgConcededPerSet)/15*100)),
+      clutch: Math.max(0,Math.min(100, closeSetRate)),
+      stability: stabilityIndex,
+      adapt: Math.max(0,Math.min(100, (growthRate+10)/20*100))
+    };
+
+    var aiInsight = '対 '+opponentName+' 分析リポート：';
+    if(dominanceKey==='DOMINANT') aiInsight += 'あなたが優位に立ち、主導権を完全に握っています。得意な攻撃パターンが良く機能しています。';
+    else if(dominanceKey==='ADVANTAGE') aiInsight += '全体として勝ち越しの展開です。相手の反撃ペースを削ぎ、安定した配球を維持しましょう。';
+    else if(dominanceKey==='EVEN') aiInsight += '実力が拮抗するライバル関係です。勝負を分けるのは終盤のミス軽減と勝負所での1点です。';
+    else if(dominanceKey==='DISADVANTAGE') aiInsight += '相手にリードを許す展開が多いですが、セットを取得できる好機は十分にあります。';
+    else aiInsight += '相手のペースに飲まれやすい難敵です。ラリーを長く保ち、粘り強い戦術への切り替えを推奨します。';
+    if(growthRate>2) aiInsight += ' 📈 初対戦時と比較して得失点差が向上しており、対策が着実に実を結んでいます！';
+    else if(growthRate<-2) aiInsight += ' ⚠️ 直近の対戦で苦戦傾向が見られます。組み立ての見直しを行いましょう。';
+
+    return {
+      opponentName:opponentName, matchCount:matchCount, wins:wins, losses:losses, winRate:winRate,
+      setWinRate:setWinRate, totalSetsWon:setsWon, totalSetsLost:setsLost,
+      avgScorePerSet:avgScorePerSet, avgConcededPerSet:avgConcededPerSet, avgPointDiffPerSet:avgPointDiffPerSet,
+      closeSetRate:closeSetRate, dominantSetRate:dominantSetRate, crushingLossRate:crushingLossRate,
+      closestSetScore:closestScore, stabilityIndex:stabilityIndex, stdDevPointDiff:stdDev, growthRate:growthRate,
+      recent5WinRate:r5.winRate, recent5PointDiff:r5.pointDiff, recent10WinRate:r10.winRate, recent10PointDiff:r10.pointDiff,
+      relativeStrengthGap:relativeStrengthGap, gapLabel:gapLabel, gapColor:gapColor,
+      dominance:DOMINANCE[dominanceKey], confidenceText:confidenceText, radar:radar, aiInsight:aiInsight,
+      trend:opMatches.map(function(m,idx){
+        return {idx:idx+1, win:matchIsWin(m), score:matchScoreText(m), date:fmtDate(m.date)};
+      })
+    };
+  }
+
+  function renderRivalChips(){
+    var names = [];
+    state.matches.forEach(function(m){ if(names.indexOf(m.opponent)===-1) names.push(m.opponent); });
+    var row = document.getElementById('rival-chip-row');
+    row.innerHTML = '';
+    if(names.length===0){
+      row.innerHTML = '';
+      document.getElementById('rival-body').innerHTML = '<div class="rival-empty">試合を登録すると対戦相手ごとの実力差分析が表示されます 🎯</div>';
+      return;
+    }
+    if(!state.selectedRival || names.indexOf(state.selectedRival)===-1){ state.selectedRival = names[0]; }
+    names.forEach(function(name){
+      var cnt = state.matches.filter(function(m){return m.opponent===name;}).length;
+      var chip = document.createElement('button');
+      chip.className = 'rival-chip' + (name===state.selectedRival ? ' on' : '');
+      chip.textContent = name + ' (' + cnt + '戦)';
+      chip.addEventListener('click', function(){ state.selectedRival = name; renderRivalChips(); });
+      row.appendChild(chip);
+    });
+    renderRivalBody();
+  }
+
+  function renderRivalBody(){
+    var body = document.getElementById('rival-body');
+    if(!state.selectedRival){ body.innerHTML=''; return; }
+    var d = computeRival(state.selectedRival);
+
+    var html = '';
+    html += '<div class="rival-header" style="background:'+d.gapColor+'1F;border:1.5px solid '+d.gapColor+'80;">';
+    html += '<div class="rival-header-top"><div><div class="rival-name">対戦相手: '+d.opponentName+'</div>';
+    html += '<div class="rival-conf">信頼度: '+d.confidenceText+'</div>';
+    html += '<div class="rival-dom-badge" style="background:'+d.dominance.color+'2E;color:'+d.dominance.color+';border:1px solid '+d.dominance.color+';"><span class="dot" style="background:'+d.dominance.color+';"></span>あなたの優位性: '+d.dominance.label+'</div></div>';
+    html += '<div class="rival-gap-badge" style="background:'+d.gapColor+';"><div class="gl">ライバル拮抗度</div><div class="gv">'+d.relativeStrengthGap+'</div><div class="gu">指数 / 100</div></div>';
+    html += '</div>';
+    html += '<div class="rival-gap-label" style="background:'+d.gapColor+'26;color:'+d.gapColor+';">実力差評価: '+d.gapLabel+'</div>';
+    html += '</div>';
+
+    html += '<div class="ai-insight-box"><div class="tt">🤖 スポーツデータサイエンティスト AI 分析考察</div><p>'+d.aiInsight+'</p></div>';
+
+    var metrics = [
+      ['対戦成績 / 実質勝率', d.wins+'勝 '+d.losses+'敗', '勝率 '+Math.round(d.winRate)+'%'],
+      ['セット取得率', Math.round(d.setWinRate)+'%', d.totalSetsWon+' / '+(d.totalSetsWon+d.totalSetsLost)+' セット'],
+      ['平均得点 / 平均失点', d.avgScorePerSet.toFixed(1)+' - '+d.avgConcededPerSet.toFixed(1), '得失点差: '+(d.avgPointDiffPerSet>=0?'+':'')+d.avgPointDiffPerSet.toFixed(1)],
+      ['接戦率（2pt差以内）', Math.round(d.closeSetRate)+'%', '競り合いセット割合'],
+      ['圧勝率 / 大敗率', Math.round(d.dominantSetRate)+'% / '+Math.round(d.crushingLossRate)+'%', '大差勝 / 大差負'],
+      ['最大接戦スコア', d.closestSetScore, '最小点差セット'],
+      ['安定性（標準偏差）', Math.round(d.stabilityIndex)+' pt', 'σ = '+d.stdDevPointDiff.toFixed(1)],
+      ['成長率（得失点変化）', (d.growthRate>=0?'+':'')+d.growthRate.toFixed(1)+' pt', '初対戦 ➔ 最新対戦'],
+      ['直近5試合成績', '勝率 '+Math.round(d.recent5WinRate)+'%', '平均点差: '+(d.recent5PointDiff>=0?'+':'')+d.recent5PointDiff.toFixed(1)],
+      ['直近10試合成績', '勝率 '+Math.round(d.recent10WinRate)+'%', '平均点差: '+(d.recent10PointDiff>=0?'+':'')+d.recent10PointDiff.toFixed(1)]
+    ];
+    html += '<div class="rival-metrics-grid">';
+    metrics.forEach(function(row){
+      html += '<div class="rmetric-box"><div class="mt">'+row[0]+'</div><div class="mv">'+row[1]+'</div><div class="ms">'+row[2]+'</div></div>';
+    });
+    html += '</div>';
+
+    html += '<div class="radar-wrap"><div class="sec-label">📊 プレースタイル 5軸レーダーチャート</div>' + buildRadarSvg(d.radar) + '</div>';
+    html += '<div class="radar-axis-note">💡 攻撃力: 平均得点力 ／ 防御力: 失点抑制力 ／ 競り合い: 接戦での強さ ／ 安定性: 得失点差のブレの無さ ／ 対応力: 初対戦からの改善幅</div>';
+
+    html += '<div class="sec-label" style="margin-top:14px;display:block;">📈 対戦履歴の推移</div>';
+    html += '<div class="trend-strip">';
+    d.trend.forEach(function(t){
+      var col = t.win ? '#10B981' : '#EF4444';
+      html += '<div class="trend-dot-col"><div class="trend-dot" style="background:'+col+';">'+(t.win?'W':'L')+'</div><div class="dl">'+t.date.slice(5)+'</div></div>';
+    });
+    html += '</div>';
+
+    body.innerHTML = html;
+  }
+
+  function buildRadarSvg(radar){
+    var axes = [
+      {key:'attack', label:'攻撃力'},
+      {key:'defense', label:'防御力'},
+      {key:'clutch', label:'競り合い'},
+      {key:'stability', label:'安定性'},
+      {key:'adapt', label:'対応力'}
+    ];
+    var cx=100, cy=100, R=72;
+    function pt(i, val){
+      var angle = -Math.PI/2 + i*(2*Math.PI/axes.length);
+      var r = R * (val/100);
+      return [cx + r*Math.cos(angle), cy + r*Math.sin(angle)];
+    }
+    function ptOuter(i){
+      var angle = -Math.PI/2 + i*(2*Math.PI/axes.length);
+      return [cx + R*Math.cos(angle), cy + R*Math.sin(angle)];
+    }
+    var poly = axes.map(function(a,i){ var p = pt(i, radar[a.key]); return p[0]+','+p[1]; }).join(' ');
+    var rings = [0.25,0.5,0.75,1].map(function(f){
+      return axes.map(function(a,i){
+        var angle = -Math.PI/2 + i*(2*Math.PI/axes.length);
+        var r = R*f;
+        return (cx+r*Math.cos(angle))+','+(cy+r*Math.sin(angle));
+      }).join(' ');
+    });
+    var svg = '<svg viewBox="0 0 200 210">';
+    rings.forEach(function(ringPts){
+      svg += '<polygon points="'+ringPts+'" fill="none" stroke="#E2E8F0" stroke-width="1"/>';
+    });
+    axes.forEach(function(a,i){
+      var o = ptOuter(i);
+      svg += '<line x1="'+cx+'" y1="'+cy+'" x2="'+o[0]+'" y2="'+o[1]+'" stroke="#E2E8F0" stroke-width="1"/>';
+    });
+    svg += '<polygon points="'+poly+'" fill="#0C3E63" fill-opacity="0.28" stroke="#0C3E63" stroke-width="2"/>';
+    axes.forEach(function(a,i){
+      var p = pt(i, radar[a.key]);
+      svg += '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="3" fill="#0C3E63"/>';
+      var o = ptOuter(i);
+      var lx = cx + (o[0]-cx)*1.22, ly = cy + (o[1]-cy)*1.22;
+      svg += '<text x="'+lx+'" y="'+ly+'" font-size="10" font-weight="700" fill="#0C3E63" text-anchor="middle" dominant-baseline="middle">'+a.label+'</text>';
+    });
+    svg += '</svg>';
+    return svg;
   }
 
   function renderAnalytics(wins, losses, total){
@@ -1128,7 +1743,6 @@ footer .fcopy{font-size:11px;color:#A3ADB8;}
     donut.style.background = 'conic-gradient(#869986 0deg ' + winDeg + 'deg, #CF8A78 ' + winDeg + 'deg 360deg)';
     if(total === 0){ donut.style.background = 'conic-gradient(#F1F5F9 0deg 360deg)'; }
 
-    // monthly-ish mock bar chart derived from cumulative results (illustrative)
     var barChart = document.getElementById('bar-chart');
     barChart.innerHTML = '';
     var months = ['4月','5月','6月','7月','8月','今月'];
@@ -1165,13 +1779,16 @@ footer .fcopy{font-size:11px;color:#A3ADB8;}
     });
   });
 
-  // ---- sport picker ----
+  // ---- sport picker (also resets games editor for the new sport's max sets) ----
   document.getElementById('sport-picker').addEventListener('click', function(e){
     var btn = e.target.closest('.pick-chip');
     if(!btn) return;
     document.querySelectorAll('#sport-picker .pick-chip').forEach(function(b){b.classList.remove('on');});
     btn.classList.add('on');
     state.sport = btn.getAttribute('data-sport');
+    var max = MAX_GAMES[state.sport] || 5;
+    if(state.games.length > max){ state.games = state.games.slice(0, max); }
+    renderGamesEditor();
   });
 
   // ---- gear type picker ----
@@ -1181,6 +1798,9 @@ footer .fcopy{font-size:11px;color:#A3ADB8;}
     document.querySelectorAll('#gear-type-picker .pick-chip').forEach(function(b){b.classList.remove('on');});
     btn.classList.add('on');
     state.gearType = btn.getAttribute('data-geartype');
+    var isShoes = state.gearType === 'shoes';
+    document.getElementById('gear-string-field').style.display = isShoes ? 'none' : 'block';
+    document.getElementById('gear-tension-field').style.display = isShoes ? 'none' : 'flex';
   });
 
   // ---- register segmented control ----
@@ -1194,18 +1814,6 @@ footer .fcopy{font-size:11px;color:#A3ADB8;}
     });
   });
 
-  // ---- score stepper ----
-  document.querySelectorAll('.stepper button').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var who = btn.getAttribute('data-who');
-      var role = btn.getAttribute('data-role');
-      var key = who === 'me' ? 'scoreMe' : 'scoreOpp';
-      var delta = role === 'inc' ? 1 : -1;
-      state[key] = Math.max(0, Math.min(99, state[key] + delta));
-      document.getElementById(who === 'me' ? 'score-me' : 'score-opp').textContent = state[key];
-    });
-  });
-
   // ---- toast helper ----
   var toastTimer = null;
   function showToast(msg){
@@ -1216,64 +1824,75 @@ footer .fcopy{font-size:11px;color:#A3ADB8;}
     toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 2200);
   }
 
-  // ---- save match ----
+  // ---- save match (games-based) ----
   document.getElementById('btn-save-match').addEventListener('click', function(){
     var opponent = document.getElementById('in-opponent').value.trim() || '対戦相手未入力';
     var tournament = document.getElementById('in-tournament').value.trim();
-    var win = state.scoreMe > state.scoreOpp;
+    var hasScore = state.games.some(function(g){ return g.me>0 || g.opp>0; });
 
-    if(state.scoreMe === 0 && state.scoreOpp === 0){
+    if(!hasScore){
       showToast('⚠️ スコアを入力してください');
       return;
     }
 
-    state.matches.push({
-      sport: state.sport, opponent: opponent, tournament: tournament,
-      win: win, me: state.scoreMe, opp: state.scoreOpp
-    });
+    var newMatch = {
+      id:nextId(), sport: state.sport, opponent: opponent, tournament: tournament,
+      date: Date.now(), games: state.games.map(function(g){return {me:g.me, opp:g.opp};})
+    };
+    state.matches.push(newMatch);
     state.matchesRegisteredCount++;
 
     document.getElementById('in-opponent').value = '';
     document.getElementById('in-tournament').value = '';
-    state.scoreMe = 0; state.scoreOpp = 0;
-    document.getElementById('score-me').textContent = '0';
-    document.getElementById('score-opp').textContent = '0';
+    state.games = [{me:0, opp:0}];
+    renderGamesEditor();
 
+    var win = matchIsWin(newMatch);
     renderStats();
     showToast(win ? '🏆 勝利を記録しました！' : '📋 試合結果を保存しました');
 
-    // switch back to dashboard to show the reflected result, like the real app flow
     setTimeout(function(){
       document.querySelector('.nav-item[data-tab="dashboard"]').click();
     }, 500);
 
     if(state.matchesRegisteredCount === 2){
-      setTimeout(function(){ document.getElementById('conv-modal').classList.add('show'); }, 1300);
+      setTimeout(function(){ openModal('conv-modal'); }, 1300);
     }
   });
 
   // ---- save gear ----
   document.getElementById('btn-save-gear').addEventListener('click', function(){
     var name = document.getElementById('in-gear-name').value.trim();
-    var meta = document.getElementById('in-gear-tension').value.trim();
     if(!name){ showToast('⚠️ 名称を入力してください'); return; }
-    state.gears.push({
-      type: state.gearType, name: name,
-      meta: meta || (SPORT_LABEL[state.sport] + '・登録済み'),
-      health: 95
-    });
+    var dateVal = document.getElementById('in-gear-date').value;
+    var ts = dateVal ? new Date(dateVal+'T00:00:00').getTime() : Date.now();
+    var stringName = state.gearType!=='shoes' ? document.getElementById('in-gear-string').value.trim() : '';
+    var tension = state.gearType!=='shoes' ? (parseInt(document.getElementById('in-gear-tension').value,10) || null) : null;
+    var unit = state.gearType!=='shoes' ? (document.getElementById('in-gear-unit').value.trim() || 'lbs') : '';
+
+    var newGear = {
+      id:nextId(), type: state.gearType, sport: state.sport, name: name,
+      stringName: stringName, tension: tension, unit: unit, active:true,
+      lastMaintenanceAt: ts,
+      maintenances: [{id:nextId(), date:ts, stringName:stringName, tension:tension, unit:unit, note:'新規登録'}]
+    };
+    state.gears.push(newGear);
+
     document.getElementById('in-gear-name').value = '';
+    document.getElementById('in-gear-string').value = '';
     document.getElementById('in-gear-tension').value = '';
+    document.getElementById('in-gear-date').value = '';
     renderGear();
     showToast('🎾 ギアを登録しました');
   });
 
   // ---- conversion modal close ----
   document.getElementById('conv-close').addEventListener('click', function(){
-    document.getElementById('conv-modal').classList.remove('show');
+    closeModal('conv-modal');
   });
 
   // init
+  renderGamesEditor();
   renderStats();
   renderGear();
 })();
