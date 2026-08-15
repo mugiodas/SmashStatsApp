@@ -1,0 +1,1785 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SmashStats（スマッシュスタッツ）| 5競技対応の試合記録＆ギア管理アプリ</title>
+<meta name="description" content="バドミントン・テニス・ソフトテニス・卓球・ピックルボール対応。試合スコア記録、ラケット/ガット管理、5階層の戦績分析ができるアプリ「SmashStats」。ブラウザで今すぐ体験できます。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy-900:#081B2E;
+  --navy-800:#0B2C47;
+  --navy-700:#0C3E63;
+  --sky-400:#4FA8E8;
+  --emerald-500:#10B981;
+  --emerald-600:#0E9B6F;
+  --coral-500:#C76A58;
+  --paper-50:#F4F7F9;
+  --white:#FFFFFF;
+  --ink-900:#0F172A;
+  --slate-500:#64748B;
+  --slate-300:#CBD5E1;
+  --line-200:#CBD5E1;
+  --font-display:'Space Grotesk',-apple-system,sans-serif;
+  --font-body:'Noto Sans JP','Hiragino Kaku Gothic ProN',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --shadow-soft:0 20px 50px -20px rgba(8,27,46,0.35);
+  --shadow-card:0 10px 30px -12px rgba(15,23,42,0.18);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  font-family:var(--font-body);
+  color:var(--ink-900);
+  background:var(--paper-50);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block;}
+button{font-family:inherit;cursor:pointer;}
+a{color:inherit;}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+.num{font-family:var(--font-mono);font-variant-numeric:tabular-nums;}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:0.001ms !important;animation-iteration-count:1 !important;transition-duration:0.001ms !important;scroll-behavior:auto !important;}
+}
+
+/* ---------- Top bar ---------- */
+.topbar{
+  position:sticky;top:0;z-index:60;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 18px;
+  background:rgba(8,27,46,0.92);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+.topbar-brand{display:flex;align-items:center;gap:9px;color:#fff;}
+.topbar-mark{width:30px;height:30px;border-radius:9px;overflow:hidden;flex:none;background:#E7F8EC;}
+.topbar-mark img{width:100%;height:100%;object-fit:cover;}
+.topbar-name{font-family:var(--font-display);font-weight:700;font-size:15px;letter-spacing:0.01em;}
+.btn{
+  border:none;border-radius:999px;font-weight:700;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  white-space:nowrap;text-decoration:none;
+}
+.btn:active{transform:scale(0.97);}
+.btn-store{
+  background:linear-gradient(135deg,#12B981,#0C3E63 130%);
+  color:#fff;padding:9px 16px;font-size:12.5px;
+  box-shadow:0 8px 20px -8px rgba(16,185,129,0.6);
+}
+.btn-store svg{flex:none;}
+.btn-store-lg{
+  background:#fff;color:var(--navy-800);
+  padding:16px 26px;font-size:15.5px;
+  box-shadow:0 16px 34px -14px rgba(0,0,0,0.35);
+}
+.btn-store-lg .sub{display:block;font-size:10px;font-weight:600;color:var(--slate-500);margin-top:1px;}
+.btn-ghost{
+  background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.25);
+  padding:14px 22px;font-size:14px;font-weight:700;
+}
+.play-glyph{
+  width:22px;height:22px;border-radius:6px;background:#fff;
+  display:flex;align-items:center;justify-content:center;flex:none;
+}
+
+/* ---------- Hero ---------- */
+.hero{
+  position:relative;
+  background:
+    radial-gradient(1100px 500px at 85% -10%, rgba(79,168,232,0.28), transparent 60%),
+    radial-gradient(700px 400px at 5% 110%, rgba(16,185,129,0.22), transparent 60%),
+    linear-gradient(180deg,var(--navy-900),var(--navy-800) 60%, #0A2740 100%);
+  color:#fff;
+  padding:56px 0 30px;
+  overflow:hidden;
+}
+.hero-grid{
+  display:grid;grid-template-columns:1.05fr 0.95fr;gap:48px;align-items:center;
+}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11.5px;font-weight:700;letter-spacing:0.04em;
+  color:#BFEAD8;background:rgba(16,185,129,0.14);
+  border:1px solid rgba(16,185,129,0.35);
+  padding:7px 13px;border-radius:999px;margin-bottom:20px;
+}
+.hero h1{
+  font-family:var(--font-display);
+  font-size:clamp(30px,4.4vw,50px);
+  line-height:1.28;
+  font-weight:700;
+  margin:0 0 18px;
+  letter-spacing:-0.01em;
+}
+.hero h1 em{
+  font-style:normal;color:#7FE0B8;
+  background:linear-gradient(180deg,transparent 62%, rgba(16,185,129,0.35) 62%);
+}
+.hero p.lead{
+  font-size:15.5px;line-height:1.85;color:#C9D6E4;
+  max-width:520px;margin:0 0 30px;
+}
+.hero-cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:22px;}
+.hero-trust{display:flex;flex-wrap:wrap;gap:18px;margin-top:8px;}
+.trust-item{display:flex;align-items:center;gap:7px;font-size:12px;color:#9FB4C7;font-weight:500;}
+.trust-item svg{flex:none;color:#5BD9A4;}
+
+.hero-visual{position:relative;display:flex;justify-content:center;}
+.float-chip{
+  position:absolute;background:rgba(255,255,255,0.95);color:var(--ink-900);
+  border-radius:14px;padding:10px 13px;box-shadow:var(--shadow-card);
+  font-size:11.5px;font-weight:700;display:flex;align-items:center;gap:8px;
+  z-index:5;animation:floaty 5s ease-in-out infinite;
+}
+.float-chip .fc-num{font-family:var(--font-mono);font-size:15px;color:var(--emerald-600);}
+.float-chip.fc1{top:6%;left:-6%;animation-delay:0s;}
+.float-chip.fc2{bottom:16%;right:-8%;animation-delay:1.4s;}
+.float-chip.fc3{top:46%;right:-13%;animation-delay:2.6s;}
+@keyframes floaty{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+
+/* ---------- rally divider ---------- */
+.rally-divider{display:block;width:100%;line-height:0;background:linear-gradient(180deg,#0A2740,var(--paper-50) 92%);}
+
+/* ---------- Guide strip ---------- */
+.guide{padding:6px 0 46px;background:var(--paper-50);}
+.guide-title{text-align:center;margin:0 0 26px;}
+.guide-title h2{font-family:var(--font-display);font-size:22px;margin:0 0 6px;}
+.guide-title p{color:var(--slate-500);font-size:13.5px;margin:0;}
+.guide-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:840px;margin:0 auto;}
+.gstep{
+  background:#fff;border:1px solid var(--slate-300);border-radius:18px;
+  padding:16px 16px 15px;position:relative;
+}
+.gstep .gi{
+  width:30px;height:30px;border-radius:9px;background:var(--navy-700);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-weight:700;font-size:13px;
+  margin-bottom:10px;
+}
+.gstep h3{font-size:13.5px;margin:0 0 4px;}
+.gstep p{font-size:11.5px;color:var(--slate-500);margin:0;line-height:1.6;}
+
+/* ---------- Demo section ---------- */
+.demo-section{padding:10px 0 64px;background:var(--paper-50);}
+.demo-shell{display:flex;justify-content:center;position:relative;}
+.demo-note{
+  max-width:400px;margin:22px auto 0;text-align:center;
+  font-size:11.5px;color:var(--slate-500);line-height:1.7;
+  background:#fff;border:1px dashed var(--slate-300);border-radius:14px;padding:12px 16px;
+}
+
+/* ---------- Phone frame ---------- */
+.phone-outer{position:relative;filter:drop-shadow(var(--shadow-soft));}
+.phone-frame{
+  width:336px;height:702px;border-radius:46px;
+  background:#0B1220;padding:12px;position:relative;
+}
+.phone-notch{
+  position:absolute;top:12px;left:50%;transform:translateX(-50%);
+  width:118px;height:26px;background:#0B1220;border-radius:0 0 16px 16px;z-index:30;
+}
+.phone-screen{
+  width:100%;height:100%;border-radius:34px;overflow:hidden;position:relative;
+  background:var(--p-bg,#F4F7F9);
+  display:flex;flex-direction:column;
+  transition:background .35s ease;
+}
+.phone-sidebtn{position:absolute;width:3px;background:#0B1220;border-radius:2px;}
+.phone-sidebtn.pw{right:-3px;top:120px;height:70px;}
+.phone-sidebtn.v1{left:-3px;top:110px;height:36px;}
+.phone-sidebtn.v2{left:-3px;top:156px;height:56px;}
+
+.statusbar{
+  height:30px;flex:none;display:flex;align-items:center;justify-content:space-between;
+  padding:0 22px;font-size:12px;font-weight:700;color:var(--p-text,#0F172A);font-family:var(--font-mono);
+}
+.statusbar .sb-icons{display:flex;align-items:center;gap:5px;}
+
+.appbar{
+  flex:none;display:flex;align-items:center;justify-content:space-between;
+  padding:6px 16px 10px;
+}
+.appbar-brand{display:flex;align-items:center;gap:9px;}
+.appbar-ring{
+  width:32px;height:32px;border-radius:50%;padding:2px;flex:none;
+  background:conic-gradient(from 180deg,#0C3E63,#74C9FF,#FFCE00,#0C3E63);
+}
+.appbar-ring img{width:100%;height:100%;border-radius:50%;background:#fff;object-fit:cover;}
+.appbar-title{font-weight:800;font-size:13.5px;color:var(--p-primary,#0C3E63);}
+.appbar-streak{
+  display:flex;align-items:center;gap:5px;background:var(--p-primary-container,#E2EFFD);
+  color:var(--p-on-primary-container,#0C3E63);padding:5px 10px;border-radius:999px;
+  font-size:10.5px;font-weight:800;
+}
+
+.screen-body{flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:2px 16px 14px;scrollbar-width:none;}
+.screen-body::-webkit-scrollbar{display:none;}
+
+.bottomnav-wrap{flex:none;padding:6px 12px 12px;}
+.bottomnav{
+  height:64px;background:var(--p-surface,#fff);border:1.6px solid var(--p-outline,#CBD5E1);
+  border-radius:24px;display:flex;align-items:center;box-shadow:0 6px 18px -10px rgba(0,0,0,0.25);
+}
+.navtab{
+  flex:1;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:2px;border:none;background:none;color:var(--p-text-secondary,#64748B);position:relative;
+}
+.navtab .nt-icon{
+  width:38px;height:30px;border-radius:15px;display:flex;align-items:center;justify-content:center;
+  transition:background .18s ease;
+}
+.navtab.active .nt-icon{background:var(--p-primary-container,#E2EFFD);}
+.navtab.active{color:var(--p-primary,#0C3E63);}
+.navtab .nt-label{font-size:9px;font-weight:700;}
+
+/* ---- generic card styles inside phone ---- */
+.pcard{
+  background:var(--p-surface,#fff);border-radius:16px;border:1px solid var(--p-outline,#CBD5E1);
+  padding:14px;margin-bottom:12px;
+}
+.psec-title{
+  display:flex;align-items:center;justify-content:space-between;
+  font-weight:800;font-size:13.5px;color:var(--p-text,#0F172A);margin:14px 0 8px;
+}
+.psec-title .cnt{font-size:10.5px;font-weight:700;color:var(--p-text-secondary,#64748B);}
+
+.player-card{
+  background:var(--p-primary-container,#E2EFFD);
+  border:1px solid var(--p-outline,#CBD5E1);
+  border-radius:16px;padding:14px;display:flex;align-items:center;gap:13px;margin-bottom:14px;
+}
+.player-avatar{
+  width:44px;height:44px;border-radius:50%;background:var(--p-primary,#0C3E63);color:var(--p-on-primary,#fff);
+  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:17px;flex:none;
+}
+.player-name{font-weight:800;font-size:14.5px;color:var(--p-text,#0F172A);}
+.player-team{font-size:10.5px;color:var(--p-text-secondary,#64748B);font-weight:600;margin-top:2px;}
+
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:10px;}
+.stat-box{
+  background:var(--p-surface,#fff);border:1px solid var(--p-outline,#CBD5E1);border-radius:16px;
+  padding:10px 4px;text-align:center;
+}
+.stat-box .lbl{font-size:9px;font-weight:800;color:var(--p-text-secondary,#64748B);}
+.stat-box .val{font-family:var(--font-mono);font-weight:700;font-size:18px;margin-top:3px;}
+
+.winbar-card{background:var(--p-surface,#fff);border:1px solid var(--p-outline,#CBD5E1);border-radius:20px;padding:12px;margin-bottom:6px;}
+.winbar-top{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;font-weight:700;color:var(--p-text-secondary,#64748B);margin-bottom:6px;}
+.winbar-top .pct{font-family:var(--font-mono);font-weight:700;font-size:14.5px;color:var(--p-primary,#0C3E63);}
+.winbar-track{height:9px;border-radius:999px;background:var(--p-surface-variant,#F1F5F9);overflow:hidden;display:flex;}
+.winbar-seg{height:100%;transition:width .5s ease;}
+
+.match-card{border-radius:15px;padding:11px 12px;margin-bottom:9px;border:1px solid;cursor:pointer;transition:transform .12s ease;}
+.match-card:active{transform:scale(0.98);}
+.match-card.win{background:#EAF6EC;border-color:#C8E6C9;}
+.match-card.lose{background:#FDEEEE;border-color:#FFCDD2;}
+.mc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
+.mc-left{display:flex;align-items:center;gap:6px;}
+.mc-badge{font-size:8.5px;font-weight:800;color:#fff;padding:3px 7px;border-radius:6px;letter-spacing:0.02em;}
+.mc-badge.win{background:#2E7D32;}
+.mc-badge.lose{background:#C62828;}
+.mc-tname{font-size:11px;font-weight:700;color:var(--p-text,#0F172A);}
+.mc-date{font-size:9.5px;color:var(--p-text-secondary,#64748B);}
+.mc-bottom{display:flex;justify-content:space-between;align-items:center;}
+.mc-opp{font-size:10.5px;font-weight:600;color:var(--p-text,#0F172A);}
+.mc-score{font-family:var(--font-mono);font-weight:800;font-size:14.5px;}
+.mc-score.win{color:#2E7D32;}
+.mc-score.lose{color:#C62828;}
+
+.gear-card{border-radius:16px;background:var(--p-surface,#fff);border:1px solid var(--p-outline,#CBD5E1);padding:12px;margin-bottom:9px;cursor:pointer;transition:transform .12s ease;}
+.gear-card:active{transform:scale(0.98);}
+.gc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+.gc-name{font-size:12.5px;font-weight:800;color:var(--p-text,#0F172A);}
+.gc-string{font-size:10px;color:var(--p-text-secondary,#64748B);margin-top:2px;}
+.gc-tag{font-size:9px;font-weight:800;padding:3px 8px;border-radius:999px;white-space:nowrap;}
+.gc-tag.ok{background:var(--p-secondary-container,#E6F4EC);color:var(--p-on-secondary-container,#10B981);}
+.gc-tag.warn{background:#FFF1DE;color:#B4650B;}
+.gc-tag.due{background:#FDEEEE;color:#C62828;}
+.gc-bar{height:6px;border-radius:999px;background:var(--p-surface-variant,#F1F5F9);margin-top:9px;overflow:hidden;}
+.gc-bar-fill{height:100%;border-radius:999px;}
+
+.empty-box{
+  border:1px dashed var(--p-outline,#CBD5E1);border-radius:16px;padding:20px;text-align:center;
+}
+.empty-box .t1{font-weight:800;font-size:12.5px;color:var(--p-text,#0F172A);}
+.empty-box .t2{font-size:10.5px;color:var(--p-text-secondary,#64748B);margin-top:3px;}
+
+/* register form */
+.seg-tabs{display:flex;gap:4px;background:var(--p-secondary-container,#E6F4EC);border-radius:24px;padding:4px;margin-bottom:16px;}
+.seg-tab{flex:1;border:none;background:none;padding:10px 4px;border-radius:20px;font-size:11.5px;font-weight:800;color:var(--p-on-secondary-container,#10B981);}
+.seg-tab.active{background:var(--p-primary,#0C3E63);color:var(--p-on-primary,#fff);}
+
+.chiprow{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
+.sport-chip{
+  border:1.4px solid var(--p-outline,#CBD5E1);background:var(--p-surface,#fff);
+  padding:8px 12px;border-radius:999px;font-size:11px;font-weight:700;color:var(--p-text,#0F172A);
+  display:flex;align-items:center;gap:5px;
+}
+.sport-chip.active{background:var(--p-primary,#0C3E63);border-color:var(--p-primary,#0C3E63);color:var(--p-on-primary,#fff);}
+
+.field{margin-bottom:12px;}
+.field label{display:block;font-size:11px;font-weight:700;color:var(--p-text-secondary,#64748B);margin-bottom:5px;}
+.field input[type=text],.field input[type=date]{
+  width:100%;border:1.4px solid var(--p-outline,#CBD5E1);border-radius:14px;padding:11px 12px;
+  font-size:13px;font-family:inherit;color:var(--p-text,#0F172A);background:var(--p-surface,#fff);
+}
+.field input:focus{outline:2px solid var(--p-primary,#0C3E63);outline-offset:1px;}
+
+.score-card{background:var(--p-surface,#fff);border:1px solid var(--p-outline,#CBD5E1);border-radius:16px;padding:12px;margin-bottom:10px;}
+.score-card .sc-label{font-weight:800;font-size:12px;color:var(--p-primary,#0C3E63);margin-bottom:9px;}
+.sc-row{display:flex;align-items:center;justify-content:space-between;}
+.sc-col{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1;}
+.sc-col .sc-who{font-size:10px;font-weight:800;color:var(--p-text-secondary,#64748B);}
+.sc-stepper{display:flex;align-items:center;gap:5px;}
+.stepbtn{
+  width:30px;height:30px;border-radius:50%;border:none;font-weight:800;font-size:15px;
+  display:flex;align-items:center;justify-content:center;
+}
+.stepbtn.minus{background:var(--p-secondary-container,#E6F4EC);color:var(--p-on-secondary-container,#10B981);}
+.stepbtn.plus{background:var(--p-primary-container,#E2EFFD);color:var(--p-primary,#0C3E63);}
+.sc-num{
+  width:42px;height:32px;border-radius:9px;background:var(--p-surface-variant,#F1F5F9);
+  border:1px solid var(--p-outline,#CBD5E1);display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);font-weight:800;font-size:14px;color:var(--p-text,#0F172A);
+}
+.sc-vs{font-size:10px;font-weight:800;color:var(--p-outline,#CBD5E1);padding:0 5px;}
+.addset-btn{
+  width:100%;border:1.4px dashed var(--p-outline,#CBD5E1);background:none;border-radius:14px;
+  padding:10px;font-size:11.5px;font-weight:700;color:var(--p-text-secondary,#64748B);margin-bottom:14px;
+}
+
+.slider-card{background:var(--p-surface-variant,#F1F5F9);border-radius:16px;padding:13px;margin-bottom:12px;}
+.slider-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;}
+.slider-top .st-label{font-weight:800;font-size:12px;color:var(--p-text-secondary,#64748B);}
+.slider-top .st-val{font-family:var(--font-mono);font-weight:800;font-size:17px;color:var(--p-primary,#0C3E63);}
+input[type=range]{width:100%;accent-color:var(--p-primary,#0C3E63);}
+
+.submit-btn{
+  width:100%;border:none;border-radius:16px;padding:14px;background:var(--p-primary,#0C3E63);
+  color:var(--p-on-primary,#fff);font-weight:800;font-size:13.5px;margin-top:4px;
+}
+.disabled-note{
+  background:var(--p-surface-variant,#F1F5F9);border-radius:14px;padding:12px;font-size:11px;
+  color:var(--p-text-secondary,#64748B);line-height:1.7;margin-top:10px;
+}
+
+/* analytics */
+.pill-tabs{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;}
+.pill-tab{flex:none;border:1.4px solid var(--p-outline,#CBD5E1);background:var(--p-surface,#fff);border-radius:999px;padding:8px 13px;font-size:11px;font-weight:800;color:var(--p-text-secondary,#64748B);}
+.pill-tab.active{background:var(--p-primary,#0C3E63);border-color:var(--p-primary,#0C3E63);color:var(--p-on-primary,#fff);}
+.chart-card{background:var(--p-surface,#fff);border:1px solid var(--p-outline,#CBD5E1);border-radius:18px;padding:14px;margin-bottom:12px;}
+.chart-title{font-weight:800;font-size:12px;color:var(--p-text,#0F172A);margin-bottom:2px;}
+.chart-sub{font-size:10px;color:var(--p-text-secondary,#64748B);margin-bottom:10px;}
+
+/* settings */
+.setting-row{
+  display:flex;align-items:center;justify-content:space-between;padding:13px 2px;
+  border-bottom:1px solid var(--p-outline,#CBD5E1);
+}
+.setting-row:last-child{border-bottom:none;}
+.sr-left{display:flex;align-items:center;gap:10px;}
+.sr-ico{width:32px;height:32px;border-radius:10px;background:var(--p-surface-variant,#F1F5F9);display:flex;align-items:center;justify-content:center;font-size:15px;flex:none;}
+.sr-label{font-size:12.5px;font-weight:700;color:var(--p-text,#0F172A);}
+.sr-sub{font-size:9.5px;color:var(--p-text-secondary,#64748B);margin-top:1px;}
+.lock-tag{font-size:9px;font-weight:700;color:var(--p-text-secondary,#64748B);background:var(--p-surface-variant,#F1F5F9);padding:3px 8px;border-radius:999px;}
+.theme-row{display:flex;gap:9px;padding:8px 2px 4px;}
+.theme-dot{width:30px;height:30px;border-radius:50%;border:2.5px solid transparent;position:relative;}
+.theme-dot.active{border-color:var(--p-text,#0F172A);}
+.settings-cta{
+  margin-top:18px;background:linear-gradient(135deg,var(--p-primary,#0C3E63),#0a2f4d);
+  border-radius:18px;padding:17px;color:#fff;text-align:center;
+}
+.settings-cta h4{margin:0 0 4px;font-size:13.5px;}
+.settings-cta p{margin:0 0 12px;font-size:10.5px;color:#B9CBDA;line-height:1.6;}
+
+/* toast + modal within phone */
+.phone-toast{
+  position:absolute;left:16px;right:16px;bottom:92px;z-index:80;
+  background:#171F2B;color:#fff;padding:12px 14px;border-radius:14px;
+  font-size:12px;font-weight:700;display:flex;align-items:center;gap:9px;
+  box-shadow:0 12px 24px -10px rgba(0,0,0,0.5);
+  transform:translateY(16px);opacity:0;transition:all .28s cubic-bezier(.2,.8,.3,1);pointer-events:none;
+}
+.phone-toast.show{transform:translateY(0);opacity:1;}
+.phone-toast .tick{
+  width:20px;height:20px;border-radius:50%;background:var(--emerald-500);flex:none;
+  display:flex;align-items:center;justify-content:center;
+}
+
+.complete-modal{
+  position:absolute;inset:0;z-index:90;background:rgba(8,15,25,0.62);
+  display:flex;align-items:center;justify-content:center;padding:26px;
+  opacity:0;pointer-events:none;transition:opacity .25s ease;
+}
+.complete-modal.show{opacity:1;pointer-events:auto;}
+.complete-card{
+  background:#fff;border-radius:22px;padding:24px 20px;text-align:center;
+  box-shadow:0 30px 60px -20px rgba(0,0,0,0.5);
+}
+.complete-card .cc-icon{font-size:34px;margin-bottom:8px;}
+.complete-card h3{margin:0 0 8px;font-size:15.5px;color:var(--ink-900);}
+.complete-card p{margin:0 0 16px;font-size:11.5px;color:var(--slate-500);line-height:1.7;}
+.complete-card .btn-store-lg{width:100%;}
+.complete-card .cc-dismiss{margin-top:10px;font-size:11px;color:var(--slate-500);background:none;border:none;text-decoration:underline;}
+.detail-card{
+  background:#fff;border-radius:22px;padding:20px 18px;text-align:left;
+  max-width:300px;width:88%;max-height:78%;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  box-shadow:0 30px 60px -20px rgba(0,0,0,0.5);
+}
+.detail-row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid #EEF1F4;font-size:11.5px;}
+.detail-row .dr-label{color:#64748B;font-weight:700;flex:none;}
+.detail-row .dr-val{color:#0F172A;font-weight:700;text-align:right;}
+.detail-close-btn{border:none;background:#F1F5F9;width:26px;height:26px;border-radius:50%;font-size:13px;color:#64748B;flex:none;}
+.detail-action-btn{flex:1;border:none;font-weight:800;font-size:11.5px;padding:11px;border-radius:12px;}
+
+/* ---------- Features ---------- */
+.features{padding:70px 0;background:#fff;}
+.section-head{text-align:center;max-width:600px;margin:0 auto 40px;}
+.section-head .k{font-size:11.5px;font-weight:800;color:var(--emerald-600);letter-spacing:0.05em;margin-bottom:8px;}
+.section-head h2{font-family:var(--font-display);font-size:clamp(22px,3vw,30px);margin:0 0 10px;color:var(--navy-800);}
+.section-head p{font-size:13.5px;color:var(--slate-500);margin:0;line-height:1.8;}
+.feat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.feat-card{
+  background:var(--paper-50);border:1px solid var(--slate-300);border-radius:20px;padding:22px 18px;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.feat-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-card);}
+.feat-emoji{font-size:26px;margin-bottom:12px;}
+.feat-card h3{font-size:14px;margin:0 0 8px;color:var(--navy-800);}
+.feat-card p{font-size:12px;color:var(--slate-500);line-height:1.75;margin:0;}
+.feat-wide{grid-column:span 2;background:linear-gradient(135deg,var(--navy-900),var(--navy-700));color:#fff;border:none;}
+.feat-wide h3{color:#fff;}
+.feat-wide p{color:#AEC4D6;}
+
+/* ---------- compare ---------- */
+.compare{padding:60px 0 76px;background:var(--paper-50);}
+.compare-table{
+  max-width:760px;margin:0 auto;background:#fff;border-radius:22px;border:1px solid var(--slate-300);
+  overflow:hidden;box-shadow:var(--shadow-card);
+}
+.ct-row{display:grid;grid-template-columns:1.1fr 1fr 1fr;align-items:center;}
+.ct-row:not(:last-child){border-bottom:1px solid var(--slate-300);}
+.ct-row.head{background:var(--navy-900);color:#fff;font-weight:700;}
+.ct-cell{padding:14px 16px;font-size:12.5px;}
+.ct-row.head .ct-cell:first-child{color:#9FB4C7;font-weight:600;font-size:11px;}
+.ct-cell.label{font-weight:700;color:var(--navy-800);font-size:12.5px;}
+.ct-cell.web{color:var(--slate-500);}
+.ct-cell.app{color:var(--emerald-600);font-weight:700;}
+.ct-cell.app svg{vertical-align:-2px;margin-right:4px;}
+
+/* ---------- final cta ---------- */
+.final-cta{
+  padding:80px 0;text-align:center;color:#fff;
+  background:
+    radial-gradient(800px 400px at 50% -20%, rgba(16,185,129,0.28), transparent 60%),
+    linear-gradient(180deg,var(--navy-900),#061626);
+}
+.final-cta .fc-icon{width:64px;height:64px;border-radius:18px;margin:0 auto 20px;overflow:hidden;background:#E7F8EC;}
+.final-cta h2{font-family:var(--font-display);font-size:clamp(24px,4vw,36px);margin:0 0 12px;}
+.final-cta p{color:#B9CBDA;font-size:14px;margin:0 0 28px;}
+.final-cta .btn-store-lg{margin:0 auto;}
+
+/* ---------- floating cta ---------- */
+.fab-cta{
+  position:fixed;right:18px;bottom:18px;z-index:70;
+  opacity:0;transform:translateY(14px) scale(0.94);pointer-events:none;
+  transition:opacity .25s ease, transform .25s ease;
+}
+.fab-cta.show{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}
+
+/* ---------- footer ---------- */
+footer{background:#061626;color:#7C93A6;padding:34px 0 90px;font-size:11.5px;line-height:1.9;}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:flex-start;}
+footer .fdisclaimer{max-width:560px;}
+footer .fbrand{color:#fff;font-family:var(--font-display);font-weight:700;font-size:14px;margin-bottom:6px;}
+
+@media (max-width:960px){
+  .hero-grid{grid-template-columns:1fr;}
+  .hero-visual{margin-top:12px;}
+  .float-chip{display:none;}
+  .feat-grid{grid-template-columns:repeat(2,1fr);}
+  .feat-wide{grid-column:span 2;}
+  .guide-steps{grid-template-columns:1fr;}
+  .ct-row{grid-template-columns:1fr 1fr 1fr;}
+}
+@media (max-width:520px){
+  .wrap{padding:0 16px;}
+  .hero{padding:38px 0 24px;}
+  .phone-frame{width:296px;height:632px;border-radius:40px;}
+  .phone-screen{border-radius:29px;}
+  .feat-grid{grid-template-columns:1fr;}
+  .feat-wide{grid-column:span 1;}
+  .ct-row{grid-template-columns:1fr 0.85fr 0.85fr;}
+  .ct-cell{padding:11px 10px;font-size:11px;}
+  footer .wrap{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ TOP BAR ============ -->
+<header class="topbar">
+  <div class="topbar-brand">
+    <div class="topbar-mark"><img src="https://play-lh.googleusercontent.com/xaEebx5xKqOVo9Luco8zDuz5WlW2yM2Ny7CEmszkyX139MC06BjqJW6ngV-LxIa08jjaOcp6242hoa6iPTfGrSk=w96-h96" alt="SmashStats アイコン"></div>
+    <span class="topbar-name">SmashStats</span>
+  </div>
+  <a class="btn btn-store" href="https://play.google.com/store/apps/details?id=com.aistudio.smashstats.vptzqy" target="_blank" rel="noopener">
+    <span class="play-glyph">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M4 3L20 12L4 21V3Z" fill="#0C3E63"/></svg>
+    </span>
+    Google Playで見る
+  </a>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">🏸 🎾 🥎 🏓 &nbsp;バドミントン・テニス・ソフトテニス・卓球・ピックルボール対応</div>
+      <h1>その一球のデータが、<br><em>次の一勝</em>をつくる。</h1>
+      <p class="lead">試合のスコアも、ラケットのコンディションも、成長の軌跡も。SmashStatsなら、コートを出たあとの数分で記録が終わります。まずは下の体験版を、実際に指で触ってみてください。</p>
+      <div class="hero-cta-row">
+        <a class="btn btn-store-lg" href="https://play.google.com/store/apps/details?id=com.aistudio.smashstats.vptzqy" target="_blank" rel="noopener">
+          <span class="play-glyph"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 3L20 12L4 21V3Z" fill="#0C3E63"/></svg></span>
+          <span>Google Playで無料インストール<span class="sub">広告あり・アプリ内課金あり</span></span>
+        </a>
+        <a class="btn btn-ghost" href="#demo">▼ ブラウザで体験する</a>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 5V11C4 16 7.5 20.5 12 22C16.5 20.5 20 16 20 11V5L12 2Z" stroke="currentColor" stroke-width="2"/></svg>完全ローカル保存・アカウント登録不要</div>
+        <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12L10 17L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>5競技のスコア形式に対応</div>
+      </div>
+    </div>
+    <div class="hero-visual" id="demo">
+      <div class="float-chip fc1">🏆 勝率 <span class="fc-num">72.4%</span></div>
+      <div class="float-chip fc2">🎾 ガット張替まで <span class="fc-num">6日</span></div>
+      <div class="float-chip fc3">📈 直近5戦 <span class="fc-num">4勝1敗</span></div>
+      <div id="phoneMount"></div>
+    </div>
+  </div>
+</section>
+
+<div class="rally-divider">
+  <svg viewBox="0 0 1440 64" width="100%" height="64" preserveAspectRatio="none">
+    <path d="M0 60 Q 360 -30 720 40 T 1440 20" fill="none" stroke="#3E6E90" stroke-width="1.6" stroke-dasharray="2 10" stroke-linecap="round"/>
+  </svg>
+</div>
+
+<!-- ============ GUIDE ============ -->
+<section class="guide">
+  <div class="wrap">
+    <div class="guide-title">
+      <h2>体験版でできる、3つのこと</h2>
+      <p>実際の入力方法・画面遷移をそのまま再現しています。試合が終わったつもりで触ってみてください。</p>
+    </div>
+    <div class="guide-steps">
+      <div class="gstep"><div class="gi">01</div><h3>試合のスコアを入力する</h3><p>競技を選び、対戦相手とセットごとのスコアを、実機と同じ「−／＋」ステッパーで記録します。</p></div>
+      <div class="gstep"><div class="gi">02</div><h3>ラケット・ガットを登録する</h3><p>ラケット名やガットのテンションをスライダーで入力。張替の目安が自動で表示されます。</p></div>
+      <div class="gstep"><div class="gi">03</div><h3>分析タブで成長を見る</h3><p>入力したデータがそのままグラフに反映。勝敗の推移から、ライバルとの相性、大会別の成績まで確認できます。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DEMO NOTE ============ -->
+<section class="demo-section">
+  <div class="wrap">
+    <p class="demo-note">🖥️ こちらはブラウザ上で再現した<strong>Web体験版</strong>です。入力したデータはこのタブを閉じると消去され、実際のアプリで搭載されているオフライン保存・全ての分析機能・通知機能などは含まれません。実機に近い操作感を確認いただくためのデモとしてご利用ください。</p>
+  </div>
+</section>
+
+<!-- ============ FEATURES ============ -->
+<section class="features">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="k">FEATURES</div>
+      <h2>ジュニア選手とご家族のための、戦績ノート</h2>
+      <p>大会の記録も、日々の練習試合も、ラケットのコンディションも。ひとつのアプリで、成長の軌跡をずっと残せます。</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-emoji">🏸🎾🏓</div>
+        <h3>5競技に対応</h3>
+        <p>バドミントン・テニス・ソフトテニス・卓球・ピックルボール。競技ごとに異なるスコア形式やコートサーフェスまで、正確に記録できます。</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-emoji">📝</div>
+        <h3>数タップで試合記録</h3>
+        <p>日付・大会名・対戦相手・スコアをその場で入力。シングルス／ダブルスにも対応し、対戦履歴はいつでも振り返れます。</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-emoji">🎾</div>
+        <h3>ラケット＆ガット管理</h3>
+        <p>テンションや張替日を記録すれば、交換目安を自動で計算。用具のコンディションと戦績の関係も見えてきます。</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-emoji">📊</div>
+        <h3>多層の戦績分析</h3>
+        <p>勝率の推移から、接戦での強さ、ギアの張替サイクルと成績の相関まで。数字が次の練習のヒントをくれます。</p>
+      </div>
+      <div class="feat-card feat-wide">
+        <div class="feat-emoji">🔒</div>
+        <h3>完全ローカル保存でプライバシー安心</h3>
+        <p>アカウント登録もサーバー通信も不要。記録はすべてお使いの端末の中に保存されるので、ジュニア選手の戦績データも安心して管理できます。</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-emoji">🏆</div>
+        <h3>大会の記録を積み重ねる</h3>
+        <p>初勝利・初ベスト8・初優勝といった節目を記録。ひとりの選手の成長の歴史として残せます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPARE ============ -->
+<section class="compare">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="k">WEB DEMO vs APP</div>
+      <h2>体験版と正式アプリのちがい</h2>
+      <p>ブラウザ版は「操作感」を試すためのものです。実際の記録は、正式アプリで始めましょう。</p>
+    </div>
+    <div class="compare-table">
+      <div class="ct-row head">
+        <div class="ct-cell"></div>
+        <div class="ct-cell">ブラウザ体験版</div>
+        <div class="ct-cell">正式アプリ（無料）</div>
+      </div>
+      <div class="ct-row"><div class="ct-cell label">データの保存</div><div class="ct-cell web">タブを閉じると消えます</div><div class="ct-cell app">端末に安全に保存</div></div>
+      <div class="ct-row"><div class="ct-cell label">オフライン利用</div><div class="ct-cell web">✕ 通信が必要</div><div class="ct-cell app">◯ いつでも記録可能</div></div>
+      <div class="ct-row"><div class="ct-cell label">動作の速さ</div><div class="ct-cell web">ブラウザ動作</div><div class="ct-cell app">ネイティブ動作でサクサク</div></div>
+      <div class="ct-row"><div class="ct-cell label">分析機能</div><div class="ct-cell web">9/10階層を再現<br>（点差ログ機能を除く）</div><div class="ct-cell app">10階層フル搭載</div></div>
+      <div class="ct-row"><div class="ct-cell label">ガット交換通知</div><div class="ct-cell web">なし</div><div class="ct-cell app">タイミングをお知らせ</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="final-cta">
+  <div class="wrap">
+    <div class="fc-icon"><img src="https://play-lh.googleusercontent.com/xaEebx5xKqOVo9Luco8zDuz5WlW2yM2Ny7CEmszkyX139MC06BjqJW6ngV-LxIa08jjaOcp6242hoa6iPTfGrSk=w128-h128" alt="SmashStats"></div>
+    <h2>さあ、あなたの一打を記録しよう</h2>
+    <p>無料でダウンロードして、今日の試合から記録を始めましょう。</p>
+    <a class="btn btn-store-lg" href="https://play.google.com/store/apps/details?id=com.aistudio.smashstats.vptzqy" target="_blank" rel="noopener">
+      <span class="play-glyph"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 3L20 12L4 21V3Z" fill="#0C3E63"/></svg></span>
+      <span>Google Playで無料インストール<span class="sub">広告あり・アプリ内課金あり</span></span>
+    </a>
+  </div>
+</section>
+
+<!-- ============ FLOATING CTA ============ -->
+<a class="btn btn-store fab-cta" id="fabCta" href="https://play.google.com/store/apps/details?id=com.aistudio.smashstats.vptzqy" target="_blank" rel="noopener">
+  <span class="play-glyph"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M4 3L20 12L4 21V3Z" fill="#0C3E63"/></svg></span>
+  無料ダウンロード
+</a>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="fbrand">SmashStats</div>
+      <div class="fdisclaimer">本ページはSmashStatsのプロモーション用に作成された体験版Webデモです。実際のアプリの画面・操作性を可能な限り忠実に再現していますが、正式アプリとは仕様が一部異なります。© 2026 SmashStats</div>
+    </div>
+    <a class="btn btn-ghost" style="color:#fff;padding:11px 18px;font-size:12px;" href="https://play.google.com/store/apps/details?id=com.aistudio.smashstats.vptzqy" target="_blank" rel="noopener">Google Playストアを開く</a>
+  </div>
+</footer>
+
+<template id="phoneTemplate">
+  <div class="phone-outer">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <span class="phone-sidebtn pw"></span>
+      <span class="phone-sidebtn v1"></span>
+      <span class="phone-sidebtn v2"></span>
+      <div class="phone-screen" id="phoneScreen" data-theme="standard">
+        <div class="statusbar">
+          <span id="clockLabel">9:41</span>
+          <span class="sb-icons">
+            <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><rect x="0" y="6" width="3" height="5" rx="0.5" fill="currentColor"/><rect x="4.3" y="4" width="3" height="7" rx="0.5" fill="currentColor"/><rect x="8.6" y="1.5" width="3" height="9.5" rx="0.5" fill="currentColor"/><rect x="12.9" y="0" width="3" height="11" rx="0.5" fill="currentColor"/></svg>
+            <svg width="17" height="11" viewBox="0 0 24 16" fill="none"><rect x="1" y="1" width="19" height="14" rx="3.5" stroke="currentColor" stroke-width="1.4"/><rect x="3" y="3" width="15" height="10" rx="1.8" fill="currentColor"/><rect x="21.5" y="5.5" width="1.8" height="5" rx="0.8" fill="currentColor"/></svg>
+          </span>
+        </div>
+        <div class="appbar">
+          <div class="appbar-brand">
+            <div class="appbar-ring"><img src="https://play-lh.googleusercontent.com/xaEebx5xKqOVo9Luco8zDuz5WlW2yM2Ny7CEmszkyX139MC06BjqJW6ngV-LxIa08jjaOcp6242hoa6iPTfGrSk=w64-h64" alt=""></div>
+            <span class="appbar-title">SmashStats</span>
+          </div>
+          <div class="appbar-streak" id="streakBadge">🔥 2連勝</div>
+        </div>
+        <div class="screen-body" id="screenBody"></div>
+        <div class="bottomnav-wrap">
+          <div class="bottomnav" id="bottomNav"></div>
+        </div>
+        <div class="phone-toast" id="phoneToast"><span class="tick">✓</span><span id="toastMsg"></span></div>
+        <div class="complete-modal" id="completeModal">
+          <div class="complete-card">
+            <div class="cc-icon">🎉</div>
+            <h3>体験ありがとうございました</h3>
+            <p>ブラウザ版で試せるのはここまでです。正式アプリなら、この続きをあなたの端末にずっと記録していけます。</p>
+            <a class="btn btn-store-lg" style="background:#0C3E63;color:#fff;" href="https://play.google.com/store/apps/details?id=com.aistudio.smashstats.vptzqy" target="_blank" rel="noopener">Google Playで無料インストール</a>
+            <button class="cc-dismiss" id="dismissModalBtn">体験を続ける</button>
+          </div>
+        </div>
+        <div class="complete-modal" id="matchDetailModal">
+          <div class="detail-card" id="matchDetailCard"></div>
+        </div>
+        <div class="complete-modal" id="gearDetailModal">
+          <div class="detail-card" id="gearDetailCard"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+/* ============================================================
+   SmashStats — Web Demo Logic
+   All state is in-memory only (no persistence), matching the
+   "web trial version" framing on the landing page.
+   ============================================================ */
+
+const ICONS = {
+  home: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11L12 4l9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg>',
+  list: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>',
+  add: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>',
+  star: '<svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>',
+  settings: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 005 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>'
+};
+const NAV_ITEMS = [
+  {label:'ホーム', icon: ICONS.home},
+  {label:'試合一覧', icon: ICONS.list},
+  {label:'新規登録', icon: ICONS.add},
+  {label:'分析', icon: ICONS.star},
+  {label:'設定', icon: ICONS.settings}
+];
+
+const SPORTS = [
+  {id:'BADMINTON',    label:'バドミントン',   emoji:'🏸', hasString:true,  tensionMin:18, tensionMax:30, tensionDefault:22, tensionUnit:'lbs'},
+  {id:'TENNIS',       label:'テニス',         emoji:'🎾', hasString:true,  tensionMin:40, tensionMax:65, tensionDefault:50, tensionUnit:'lbs'},
+  {id:'SOFT_TENNIS',  label:'ソフトテニス',   emoji:'🎾', hasString:true,  tensionMin:20, tensionMax:35, tensionDefault:28, tensionUnit:'lbs'},
+  {id:'TABLE_TENNIS', label:'卓球',           emoji:'🏓', hasString:false},
+  {id:'PICKLEBALL',   label:'ピックルボール', emoji:'🥎', hasString:false}
+];
+const RECOMMENDED_DAYS = {BADMINTON:21, TENNIS:45, SOFT_TENNIS:30, TABLE_TENNIS:90, PICKLEBALL:180};
+const ROUND_OPTIONS = ['なし','予選','1回戦','2回戦','準々決勝','準決勝','3位決定戦','決勝'];
+const ROUND_PRIORITY = {'予選':1,'1回戦':2,'2回戦':3,'準々決勝':4,'準決勝':5,'3位決定戦':6,'決勝':7};
+const WEATHER_OPTIONS = [['SUNNY','☀️ 晴れ'],['CLOUDY','☁️ 曇り'],['RAINY','☔ 雨']];
+
+const THEMES = {
+  standard:{label:'スタンダード', dot:'#0C3E63', vars:{'--p-bg':'#F4F7F9','--p-surface':'#FFFFFF','--p-surface-variant':'#F1F5F9','--p-primary':'#0C3E63','--p-on-primary':'#FFFFFF','--p-primary-container':'#E2EFFD','--p-on-primary-container':'#0C3E63','--p-secondary':'#64748B','--p-secondary-container':'#E6F4EC','--p-on-secondary-container':'#10B981','--p-outline':'#CBD5E1','--p-text':'#0F172A','--p-text-secondary':'#64748B'}},
+  stadium:{label:'スタジアム', dot:'#1A62C9', vars:{'--p-bg':'#FFFCF2','--p-surface':'#FFF8E2','--p-surface-variant':'#FFF3CE','--p-primary':'#1A62C9','--p-on-primary':'#FFFFFF','--p-primary-container':'#FFCE00','--p-on-primary-container':'#1B1B1B','--p-secondary':'#6B5638','--p-secondary-container':'#3FA53C','--p-on-secondary-container':'#FFFFFF','--p-outline':'#1B1B1B','--p-text':'#1B1B1B','--p-text-secondary':'#6B5638'}},
+  mint:{label:'ミントパール', dot:'#E8A7A1', vars:{'--p-bg':'#E6F0EC','--p-surface':'#FFFFFF','--p-surface-variant':'#D2E5DE','--p-primary':'#E8A7A1','--p-on-primary':'#2F3E36','--p-primary-container':'#FCDEDC','--p-on-primary-container':'#2F3E36','--p-secondary':'#2F3E36','--p-secondary-container':'#D2E5DE','--p-on-secondary-container':'#2F3E36','--p-outline':'#C8DBD3','--p-text':'#2F3E36','--p-text-secondary':'#536E60'}},
+  cosmic:{label:'コズミックディープ', dot:'#06B6D4', vars:{'--p-bg':'#090D1A','--p-surface':'#131A2E','--p-surface-variant':'#1E2640','--p-primary':'#06B6D4','--p-on-primary':'#04101A','--p-primary-container':'#1A233A','--p-on-primary-container':'#E0F2FE','--p-secondary':'#94A3B8','--p-secondary-container':'#142D30','--p-on-secondary-container':'#00FFF0','--p-outline':'#2E3D5C','--p-text':'#ECEFF1','--p-text-secondary':'#94A3B8'}}
+};
+
+/* ---------- helpers ---------- */
+function todayStr(){ return new Date().toISOString().slice(0,10); }
+function daysAgo(n){ return Date.now() - n*86400000; }
+function formatDate(ts){ const d=new Date(ts); return d.getFullYear()+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0'); }
+function escapeHtml(str){ return (str||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function sportOf(id){ return SPORTS.find(s=>s.id===id) || SPORTS[0]; }
+function defaultTension(sportId){ const sp=sportOf(sportId); return sp.tensionDefault || 24; }
+
+/* ---------- state ---------- */
+let player = {name:'皆川 陽菜', team:'陽輝ジュニアクラブ', sport:'BADMINTON'};
+let matches = [
+  {id:1, sport:'BADMINTON', opponent:'田中 結衣', club:'緑ヶ丘ジュニア', tournament:'県ジュニア大会', round:'準々決勝', format:'SINGLES', weather:'SUNNY', night:false, date:daysAgo(50), sets:[{my:21,opp:15},{my:21,opp:17}], result:'WIN'},
+  {id:2, sport:'BADMINTON', opponent:'佐藤 直樹', club:'緑ヶ丘ジュニア', tournament:'県ジュニア大会', round:'準決勝',   format:'SINGLES', weather:'CLOUDY', night:false, date:daysAgo(45), sets:[{my:18,opp:21},{my:21,opp:19},{my:21,opp:18}], result:'WIN'},
+  {id:3, sport:'BADMINTON', opponent:'田中 結衣', club:'緑ヶ丘ジュニア', tournament:'県ジュニア大会', round:'決勝',     format:'SINGLES', weather:'SUNNY', night:true,  date:daysAgo(40), sets:[{my:21,opp:19},{my:21,opp:17}], result:'WIN'},
+  {id:4, sport:'TENNIS',    opponent:'鈴木 蓮', club:'陽光クラブ', tournament:'市民オープン', round:'準決勝',   format:'SINGLES', weather:'RAINY', night:false, date:daysAgo(30), sets:[{my:4,opp:6},{my:3,opp:6}], result:'LOSE'},
+  {id:5, sport:'TENNIS',    opponent:'鈴木 蓮', club:'陽光クラブ', tournament:'市民オープン', round:'予選',     format:'SINGLES', weather:'RAINY', night:false, date:daysAgo(75), sets:[{my:2,opp:6},{my:4,opp:6}], result:'LOSE'},
+  {id:6, sport:'BADMINTON', opponent:'山本ペア', club:'', tournament:'', round:'', format:'DOUBLES', weather:'SUNNY', night:false, date:daysAgo(7),  sets:[{my:21,opp:14},{my:21,opp:16}], result:'WIN'},
+  {id:7, sport:'BADMINTON', opponent:'高橋 蓮', club:'', tournament:'', round:'', format:'SINGLES', weather:'CLOUDY', night:true, date:daysAgo(18), sets:[{my:19,opp:21},{my:21,opp:18},{my:18,opp:21}], result:'LOSE'},
+  {id:8, sport:'BADMINTON', opponent:'緑ヶ丘クラブ', club:'', tournament:'', round:'', format:'SINGLES', weather:'SUNNY', night:false, date:daysAgo(3),  sets:[{my:21,opp:12},{my:21,opp:9}], result:'WIN'}
+];
+let gears = [
+  {id:1, sport:'BADMINTON', racket:'ASTROX 99 PRO', string:'BG66 ULTIMAX', tension:22, lastMaintenance:daysAgo(9)}
+];
+let players = [];
+
+let tabIndex = 0;
+let regTab = 0;
+let analyticsTab = 0;
+let matchFilter = 'ALL';
+let currentTheme = 'standard';
+let helpOpen = false;
+let saveCount = 0;
+let modalShown = false;
+let matchFormAdvanced = false;
+let rivalSubTab = 0;
+let customGraphDim = 'SPORT';
+let collapsedTournaments = new Set();
+
+let matchForm  = { sport:'BADMINTON', opponent:'', tournament:'', date:todayStr(), sets:[{my:0,opp:0}], round:'', format:'SINGLES', club:'', weather:'', night:false, editingId:null };
+let gearForm   = { sport:player.sport, racket:'', string:'', tension:defaultTension(player.sport), lastMaintenance:todayStr(), editingId:null };
+let playerForm = { name:'', sport:'BADMINTON', team:'' };
+
+/* ---------- derived ---------- */
+function computeStats(){
+  const total = matches.length;
+  const wins = matches.filter(m=>m.result==='WIN').length;
+  const losses = matches.filter(m=>m.result==='LOSE').length;
+  const draws = total - wins - losses;
+  const winRate = total ? (wins/total*100) : 0;
+  return {total, wins, losses, draws, winRate};
+}
+function computeStreak(){
+  const sorted = [...matches].sort((a,b)=>b.date-a.date);
+  let streak=0;
+  for(const m of sorted){ if(m.result==='WIN') streak++; else break; }
+  return streak;
+}
+
+/* ---------- shared fragments ---------- */
+function emptyBox(t1,t2){
+  return `<div class="empty-box"><div class="t1">${t1}</div><div class="t2">${t2}</div></div>`;
+}
+function matchCardHtml(m){
+  const mySets = m.sets.filter(s=>Number(s.my)>Number(s.opp)).length;
+  const oppSets = m.sets.filter(s=>Number(s.opp)>Number(s.my)).length;
+  const isWin = m.result==='WIN';
+  const sp = sportOf(m.sport);
+  const tName = escapeHtml(m.tournament) || '練習・一般対戦';
+  const roundSuffix = m.round ? '・'+escapeHtml(m.round) : '';
+  return `
+  <div class="match-card ${isWin?'win':'lose'}" onclick="openMatchDetail(${m.id})">
+    <div class="mc-top">
+      <div class="mc-left">
+        <span class="mc-badge ${isWin?'win':'lose'}">${isWin?'WIN':'LOSE'}</span>
+        <span class="mc-tname">${sp.emoji} ${tName}${roundSuffix}</span>
+      </div>
+      <span class="mc-date num">${formatDate(m.date)}</span>
+    </div>
+    <div class="mc-bottom">
+      <span class="mc-opp">対戦相手: ${escapeHtml(m.opponent)}</span>
+      <span class="mc-score num ${isWin?'win':'lose'}">${mySets} - ${oppSets}</span>
+    </div>
+  </div>`;
+}
+function gearCardHtml(g){
+  const days = Math.max(0, Math.floor((Date.now()-g.lastMaintenance)/86400000));
+  const rec = RECOMMENDED_DAYS[g.sport] || 45;
+  const ratio = days/rec;
+  let tag='ok', tagLabel=`残り約${Math.max(rec-days,0)}日`;
+  if(ratio>=1){ tag='due'; tagLabel='交換目安を超過'; }
+  else if(ratio>=0.7){ tag='warn'; tagLabel=`残り約${rec-days}日`; }
+  const sp = sportOf(g.sport);
+  const barColor = tag==='due' ? '#C62828' : tag==='warn' ? '#B4650B' : '#10B981';
+  return `
+  <div class="gear-card" onclick="openGearDetail(${g.id})">
+    <div class="gc-top">
+      <div>
+        <div class="gc-name">${sp.emoji} ${escapeHtml(g.racket)}</div>
+        <div class="gc-string">${g.string ? escapeHtml(g.string)+' ・ ' : ''}${g.tension ? g.tension+(sp.tensionUnit||'lbs')+' ・ ' : ''}使用${days}日目</div>
+      </div>
+      <span class="gc-tag ${tag}">${tagLabel}</span>
+    </div>
+    <div class="gc-bar"><div class="gc-bar-fill" style="width:${Math.min(ratio*100,100)}%;background:${barColor}"></div></div>
+  </div>`;
+}
+function sportChipsHtml(activeId, onclickName){
+  return SPORTS.map(sp=>`<button class="sport-chip ${activeId===sp.id?'active':''}" onclick="${onclickName}('${sp.id}')">${sp.emoji} ${sp.label}</button>`).join('');
+}
+
+/* ---------- screens ---------- */
+function renderDashboard(){
+  const s = computeStats();
+  let html = `
+  <div class="player-card">
+    <div class="player-avatar">${player.name.charAt(0)}</div>
+    <div>
+      <div class="player-name">${player.name}</div>
+      <div class="player-team">所属: ${player.team}</div>
+    </div>
+  </div>
+  <div class="psec-title">対戦データ・サマリー 📊</div>
+  <div class="stat-row">
+    <div class="stat-box"><div class="lbl">総試合数</div><div class="val num" style="color:var(--p-primary)">${s.total}</div></div>
+    <div class="stat-box"><div class="lbl">勝利数</div><div class="val num" style="color:#2E7D32">${s.wins}</div></div>
+    <div class="stat-box"><div class="lbl">敗戦数</div><div class="val num" style="color:#C62828">${s.losses}</div></div>
+    <div class="stat-box"><div class="lbl">引き分け</div><div class="val num" style="color:#6B8CAD">${s.draws}</div></div>
+  </div>
+  <div class="winbar-card">
+    <div class="winbar-top"><span>トータル勝率 🌱</span><span class="pct num">${s.winRate.toFixed(1)}%</span></div>
+    <div class="winbar-track">
+      ${s.total ? `<div class="winbar-seg" style="width:${(s.wins/s.total*100).toFixed(1)}%;background:#2E7D32"></div><div class="winbar-seg" style="width:${(s.draws/s.total*100).toFixed(1)}%;background:#6B8CAD"></div><div class="winbar-seg" style="width:${(s.losses/s.total*100).toFixed(1)}%;background:#C62828"></div>` : `<div class="winbar-seg" style="width:100%;background:var(--p-surface-variant)"></div>`}
+    </div>
+  </div>
+  <div class="psec-title">直近の対戦結果 🏆 <span class="cnt">全${s.total}試合</span></div>`;
+
+  if(matches.length===0){
+    html += emptyBox('登録されている対戦結果がありません', '「新規登録」タブから試合結果を記録しましょう');
+  } else {
+    html += [...matches].sort((a,b)=>b.date-a.date).slice(0,3).map(matchCardHtml).join('');
+  }
+
+  html += `<div class="psec-title">登録用具リスト 🎾 <span class="cnt">${gears.length}個</span></div>`;
+  if(gears.length===0){
+    html += emptyBox('用具が未登録です', '新規登録 → 「用具登録」から追加できます');
+  } else {
+    html += gears.map(gearCardHtml).join('');
+  }
+  return html;
+}
+
+function renderMatches(){
+  let html = `<div class="chiprow">
+    <button class="sport-chip ${matchFilter==='ALL'?'active':''}" onclick="setMatchFilter('ALL')">すべて</button>
+    ${sportChipsHtml(matchFilter==='ALL'?null:matchFilter, 'setMatchFilter')}
+  </div>`;
+  const list = matches.filter(m=>matchFilter==='ALL'||m.sport===matchFilter).sort((a,b)=>b.date-a.date);
+  html += `<div class="psec-title" style="margin-top:2px;">試合履歴 <span class="cnt">${list.length}件</span></div>`;
+  html += list.length===0
+    ? emptyBox('該当する試合がありません', '別の競技を選ぶか、新規登録から記録しましょう')
+    : list.map(matchCardHtml).join('');
+  return html;
+}
+
+function renderRegister(){
+  let html = `<div class="seg-tabs">${['試合登録','用具登録','選手登録'].map((l,i)=>`<button class="seg-tab ${regTab===i?'active':''}" onclick="setRegTab(${i})">${l}</button>`).join('')}</div>`;
+  if(regTab===0) html += renderMatchForm();
+  else if(regTab===1) html += renderGearForm();
+  else html += renderPlayerForm();
+  return html;
+}
+
+function renderMatchForm(){
+  const f = matchForm;
+  let html = `<div class="field"><label>競技</label><div class="chiprow">${sportChipsHtml(f.sport,'setMatchSport')}</div></div>`;
+  html += `<div class="field"><label>対戦相手</label><input type="text" placeholder="例: 田中 結衣" value="${escapeHtml(f.opponent)}" oninput="matchForm.opponent=this.value"></div>`;
+  html += `<div class="field"><label>大会名（任意）</label><input type="text" placeholder="例: 県ジュニア大会" value="${escapeHtml(f.tournament)}" oninput="matchForm.tournament=this.value"></div>`;
+  html += `<div class="field"><label>試合日</label><input type="date" value="${f.date}" onchange="matchForm.date=this.value"></div>`;
+  f.sets.forEach((set,i)=>{
+    html += `
+    <div class="score-card">
+      <div class="sc-label">第${i+1}セット</div>
+      <div class="sc-row">
+        <div class="sc-col">
+          <span class="sc-who">自分</span>
+          <div class="sc-stepper">
+            <button class="stepbtn minus" onclick="stepScore(${i},'my',-1)" aria-label="自分のスコアを減らす">−</button>
+            <div class="sc-num num">${set.my}</div>
+            <button class="stepbtn plus" onclick="stepScore(${i},'my',1)" aria-label="自分のスコアを増やす">＋</button>
+          </div>
+        </div>
+        <span class="sc-vs">VS</span>
+        <div class="sc-col">
+          <span class="sc-who">対戦相手</span>
+          <div class="sc-stepper">
+            <button class="stepbtn minus" onclick="stepScore(${i},'opp',-1)" aria-label="相手のスコアを減らす">−</button>
+            <div class="sc-num num">${set.opp}</div>
+            <button class="stepbtn plus" onclick="stepScore(${i},'opp',1)" aria-label="相手のスコアを増やす">＋</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  });
+  if(f.sets.length<3){
+    html += `<button class="addset-btn" onclick="addSet()">＋ セットを追加</button>`;
+  }
+  html += `<button class="addset-btn" onclick="toggleMatchAdvanced()">${matchFormAdvanced ? '－ 詳細情報を閉じる' : '＋ 詳細情報を追加（ラウンド・形式・天候など）'}</button>`;
+  if(matchFormAdvanced){
+    html += `<div class="field"><label>ラウンド（大会がある場合）</label><div class="chiprow">${ROUND_OPTIONS.map(r=>`<button class="sport-chip ${(f.round||'なし')===r?'active':''}" onclick="setMatchRound('${r}')">${r}</button>`).join('')}</div></div>`;
+    html += `<div class="field"><label>対戦形式</label><div class="chiprow">
+      <button class="sport-chip ${f.format==='SINGLES'?'active':''}" onclick="setMatchFormat('SINGLES')">シングルス</button>
+      <button class="sport-chip ${f.format==='DOUBLES'?'active':''}" onclick="setMatchFormat('DOUBLES')">ダブルス</button>
+    </div></div>`;
+    html += `<div class="field"><label>相手の所属クラブ（任意）</label><input type="text" placeholder="例: 緑ヶ丘ジュニア" value="${escapeHtml(f.club)}" oninput="matchForm.club=this.value"></div>`;
+    html += `<div class="field"><label>天候（任意）</label><div class="chiprow">${WEATHER_OPTIONS.map(([code,label])=>`<button class="sport-chip ${f.weather===code?'active':''}" onclick="setMatchWeather('${code}')">${label}</button>`).join('')}</div></div>`;
+    html += `<div class="field"><label>ナイター（任意）</label><div class="chiprow">
+      <button class="sport-chip ${!f.night?'active':''}" onclick="setMatchNight(false)">☀️ 昼間</button>
+      <button class="sport-chip ${f.night?'active':''}" onclick="setMatchNight(true)">🌃 ナイター</button>
+    </div></div>`;
+  }
+  html += `<button class="submit-btn" onclick="submitMatch()">${f.editingId ? '変更を保存する' : '試合結果を登録する'}</button>`;
+  return html;
+}
+
+function renderGearForm(){
+  const f = gearForm;
+  const sp = sportOf(f.sport);
+  const isPB = f.sport==='PICKLEBALL';
+  const isTT = f.sport==='TABLE_TENNIS';
+  let html = `
+  <div class="pcard" style="background:var(--p-primary-container);border:none;">
+    <div style="font-size:10.5px;font-weight:700;color:var(--p-text-secondary);">登録対象競技</div>
+    <div style="font-size:12.5px;font-weight:800;color:var(--p-on-primary-container,var(--p-primary));margin-top:2px;">${sp.emoji} ${sp.label}（選手マスターに基づく自動決定）</div>
+  </div>`;
+  html += `<div class="field"><label>${isPB?'パドル名（必須）':'ラケット名 / フレーム構造名（必須）'}</label><input type="text" id="racketNameInput" placeholder="${isPB?'例: Joola Perseus 16mm':'例: ASTROX 99 PRO'}" value="${escapeHtml(f.racket)}" oninput="gearForm.racket=this.value"></div>`;
+  if(sp.hasString){
+    html += `<div class="field"><label>ガット / ストリング名（任意）</label><input type="text" placeholder="例: BG66 ULTIMAX" value="${escapeHtml(f.string)}" oninput="gearForm.string=this.value"></div>`;
+    html += `
+    <div class="slider-card">
+      <div class="slider-top"><span class="st-label">テンション強度</span><span class="st-val num" id="tensionVal">${f.tension} ${sp.tensionUnit}</span></div>
+      <input type="range" min="${sp.tensionMin}" max="${sp.tensionMax}" value="${f.tension}" oninput="gearForm.tension=this.value; document.getElementById('tensionVal').textContent=this.value+' ${sp.tensionUnit}';">
+    </div>`;
+  }
+  html += `<div class="field"><label>${isPB?'パドル使用開始日':'最終メンテナンス日'}</label><input type="date" value="${f.lastMaintenance}" onchange="gearForm.lastMaintenance=this.value"></div>`;
+  html += `<button class="submit-btn" onclick="submitGear()">${f.editingId ? '変更を保存する' : '用具を登録する'}</button>`;
+  return html;
+}
+
+function renderPlayerForm(){
+  const f = playerForm;
+  let html = `<div class="field"><label>選手名</label><input type="text" placeholder="例: 皆川 陽菜" value="${escapeHtml(f.name)}" oninput="playerForm.name=this.value"></div>`;
+  html += `<div class="field"><label>競技</label><div class="chiprow">${sportChipsHtml(f.sport,'setPlayerSport')}</div></div>`;
+  html += `<div class="field"><label>所属チーム（任意）</label><input type="text" placeholder="例: 陽輝ジュニアクラブ" value="${escapeHtml(f.team)}" oninput="playerForm.team=this.value"></div>`;
+  html += `<button class="submit-btn" onclick="submitPlayer()">選手を登録する</button>`;
+  html += `<div class="disabled-note">ℹ️ 体験版では選手の切り替えは行われません。正式アプリでは、登録した選手をいつでも切り替えて、それぞれの戦績を個別に管理できます。</div>`;
+  return html;
+}
+
+function renderAnalytics(){
+  const tabLabels = ['成長','勝敗','ギア','戦術','相手クラブ','ライバル','大会別','グラフ','環境'];
+  let html = `
+  <div class="psec-title" style="margin-top:2px;">階層分析エンジン</div>
+  <div style="font-size:10.5px;color:var(--p-text-secondary);margin:-6px 0 12px;">入力したデータがそのままグラフに反映されます</div>
+  <div class="pill-tabs">${tabLabels.map((l,i)=>`<button class="pill-tab ${analyticsTab===i?'active':''}" onclick="setAnalyticsTab(${i})">${l}</button>`).join('')}</div>`;
+  const renderers = [renderGrowthChart, renderWinLossChart, renderGearChart, renderTacticsChart, renderClubsChart, renderRivalsChart, renderTournamentChart, renderCustomGraphChart, renderEnvironmentChart];
+  html += renderers[analyticsTab]();
+  return html;
+}
+
+function renderGrowthChart(){
+  if(matches.length===0) return emptyBox('データがまだありません','試合を登録すると成長グラフが表示されます');
+  const sorted = [...matches].sort((a,b)=>a.date-b.date);
+  let wins=0; const pts=[];
+  sorted.forEach((m,i)=>{ if(m.result==='WIN') wins++; pts.push(wins/(i+1)*100); });
+  const W=280,H=120,pad=10;
+  const stepX = pts.length>1 ? (W-2*pad)/(pts.length-1) : 0;
+  const coords = pts.map((v,i)=>[ (pad+stepX*i).toFixed(1), (H-pad-(v/100)*(H-2*pad)).toFixed(1) ]);
+  const path = coords.map((c,i)=> (i===0?'M':'L')+c[0]+','+c[1]).join(' ');
+  const last = pts[pts.length-1];
+  return `
+  <div class="chart-card">
+    <div class="chart-title">累積勝率の推移</div>
+    <div class="chart-sub">試合を登録するたびに更新されます（現在 <span class="num">${last.toFixed(1)}%</span>）</div>
+    <svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}">
+      <line x1="${pad}" y1="${H-pad}" x2="${W-pad}" y2="${H-pad}" stroke="#CBD5E1" stroke-width="1"/>
+      <path d="${path}" fill="none" stroke="#10B981" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      ${coords.map(c=>`<circle cx="${c[0]}" cy="${c[1]}" r="3.2" fill="#10B981"/>`).join('')}
+    </svg>
+  </div>`;
+}
+
+function renderWinLossChart(){
+  if(matches.length===0) return emptyBox('データがまだありません','試合を登録すると勝敗グラフが表示されます');
+  const s = computeStats();
+  const maxV = Math.max(s.wins, s.losses, s.draws, 1);
+  const barH = v => Math.round((v/maxV)*84) + 6;
+  const bars = [ {label:'勝',val:s.wins,color:'#2E7D32'}, {label:'敗',val:s.losses,color:'#C62828'}, {label:'分',val:s.draws,color:'#6B8CAD'} ];
+  let html = `<div class="chart-card">
+    <div class="chart-title">勝敗の内訳</div>
+    <div class="chart-sub">全${s.total}試合 ・ 勝率<span class="num">${s.winRate.toFixed(1)}%</span></div>
+    <div style="display:flex;align-items:flex-end;gap:20px;height:110px;justify-content:center;">
+      ${bars.map(b=>`
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <div class="num" style="font-size:12px;font-weight:800;color:${b.color}">${b.val}</div>
+          <div style="width:34px;height:${barH(b.val)}px;background:${b.color};border-radius:8px 8px 3px 3px;"></div>
+          <div style="font-size:10px;font-weight:700;color:var(--p-text-secondary)">${b.label}</div>
+        </div>`).join('')}
+    </div>
+  </div>`;
+  const bySport = {};
+  matches.forEach(m=>{ bySport[m.sport]=bySport[m.sport]||{w:0,l:0}; if(m.result==='WIN') bySport[m.sport].w++; else if(m.result==='LOSE') bySport[m.sport].l++; });
+  const rows = Object.keys(bySport).map(id=>{
+    const sp=sportOf(id), d=bySport[id], t=d.w+d.l, rate=t?(d.w/t*100):0;
+    return `<div style="display:flex;align-items:center;gap:9px;margin-bottom:9px;">
+      <span style="font-size:14px;width:20px;">${sp.emoji}</span>
+      <span style="font-size:11px;font-weight:700;width:76px;color:var(--p-text);">${sp.label}</span>
+      <div style="flex:1;height:7px;border-radius:999px;background:var(--p-surface-variant);overflow:hidden;"><div style="height:100%;width:${rate}%;background:#10B981;"></div></div>
+      <span class="num" style="font-size:10.5px;font-weight:700;color:var(--p-text-secondary);width:34px;text-align:right;">${rate.toFixed(0)}%</span>
+    </div>`;
+  }).join('');
+  if(rows) html += `<div class="chart-card"><div class="chart-title">競技別の勝率</div><div class="chart-sub">競技ごとの成績を比較</div>${rows}</div>`;
+  return html;
+}
+
+function renderGearChart(){
+  if(gears.length===0) return emptyBox('用具データがまだありません','ギアを登録すると張替サイクルが表示されます');
+  const rows = gears.map(g=>{
+    const days = Math.max(0, Math.floor((Date.now()-g.lastMaintenance)/86400000));
+    const rec = RECOMMENDED_DAYS[g.sport] || 45;
+    const ratio = days/rec;
+    const color = ratio>=1 ? '#C62828' : ratio>=0.7 ? '#B4650B' : '#10B981';
+    const sp = sportOf(g.sport);
+    return `<div style="margin-bottom:13px;">
+      <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;margin-bottom:5px;"><span>${sp.emoji} ${escapeHtml(g.racket)}</span><span class="num" style="color:${color}">${days} / ${rec}日</span></div>
+      <div style="height:8px;border-radius:999px;background:var(--p-surface-variant);overflow:hidden;"><div style="height:100%;width:${Math.min(ratio*100,100)}%;background:${color};"></div></div>
+    </div>`;
+  }).join('');
+  return `<div class="chart-card"><div class="chart-title">ギアのコンディション</div><div class="chart-sub">張替・補修目安までの残り日数</div>${rows}</div>`;
+}
+
+/* ---- tactics (戦術) — derived from set-level scores already collected ---- */
+function computeTacticsStats(){
+  const totalWins = matches.filter(m=>m.result==='WIN').length;
+  let straightWins=0, comebackWins=0, deciderMatches=0, deciderWins=0;
+  matches.forEach(m=>{
+    const oppSetsWon = m.sets.filter(s=>Number(s.opp)>Number(s.my)).length;
+    const isWin = m.result==='WIN';
+    if(isWin && oppSetsWon===0) straightWins++;
+    if(isWin && m.sets.length>=2 && Number(m.sets[0].opp) > Number(m.sets[0].my)) comebackWins++;
+    if(m.sets.length>=3){ deciderMatches++; if(isWin) deciderWins++; }
+  });
+  return {
+    straightWins, straightRate: totalWins? straightWins/totalWins*100 : 0,
+    comebackWins, comebackRate: totalWins? comebackWins/totalWins*100 : 0,
+    deciderMatches, deciderWins, deciderRate: deciderMatches? deciderWins/deciderMatches*100 : 0
+  };
+}
+function renderTacticsChart(){
+  if(matches.length===0) return emptyBox('データがまだありません','試合を登録すると戦術分析が表示されます');
+  const t = computeTacticsStats();
+  const cx=90, cy=88, maxR=64;
+  const axes = [
+    {label:'ストレート', rate:t.straightRate, angle:-90},
+    {label:'逆転', rate:t.comebackRate, angle:150},
+    {label:'決着力', rate:t.deciderRate, angle:30}
+  ];
+  const toXY = (r, angle) => { const rad=angle*Math.PI/180; return [(cx+r*Math.cos(rad)).toFixed(1), (cy+r*Math.sin(rad)).toFixed(1)]; };
+  const pts = axes.map(a=>toXY(maxR*(a.rate/100), a.angle));
+  const outerPts = axes.map(a=>toXY(maxR, a.angle));
+  const labelPts = axes.map(a=>toXY(maxR+18, a.angle));
+  const polygon = pts.map(p=>p.join(',')).join(' ');
+  const outerPolygon = outerPts.map(p=>p.join(',')).join(' ');
+  return `
+  <div class="chart-card">
+    <div class="chart-title">📐 プレイスタイル軸（ストレート・逆転・決着力）</div>
+    <div class="chart-sub">セットスコアから算出した戦い方の傾向</div>
+    <svg viewBox="0 0 180 180" width="100%" height="170">
+      <polygon points="${outerPolygon}" fill="none" stroke="#CBD5E1" stroke-width="1"/>
+      <polygon points="${polygon}" fill="#10B98133" stroke="#10B981" stroke-width="2"/>
+      ${axes.map((a,i)=>`<text x="${labelPts[i][0]}" y="${labelPts[i][1]}" font-size="9" fill="#64748B" text-anchor="middle" font-weight="700">${a.label}</text>`).join('')}
+    </svg>
+  </div>
+  <div class="chart-card">
+    <div class="chart-title">戦術層インサイト詳細</div>
+    <div style="display:flex;justify-content:space-between;font-size:11px;padding:7px 0;border-bottom:1px solid var(--p-outline);"><span>ストレート勝利数</span><span class="num" style="font-weight:800;color:var(--p-primary);">${t.straightWins}勝（${t.straightRate.toFixed(0)}%）</span></div>
+    <div style="display:flex;justify-content:space-between;font-size:11px;padding:7px 0;border-bottom:1px solid var(--p-outline);"><span>逆転勝利数</span><span class="num" style="font-weight:800;color:#0EA5E9;">${t.comebackWins}勝（${t.comebackRate.toFixed(0)}%）</span></div>
+    <div style="display:flex;justify-content:space-between;font-size:11px;padding:7px 0;"><span>最終セット（決着戦）成績</span><span class="num" style="font-weight:800;color:#C62828;">${t.deciderMatches}戦${t.deciderWins}勝（${t.deciderRate.toFixed(0)}%）</span></div>
+  </div>`;
+}
+
+/* ---- opponent clubs (相手クラブ) ---- */
+function computeFormatStats(){
+  const singles = matches.filter(m=>(m.format||'SINGLES')==='SINGLES');
+  const doubles = matches.filter(m=>m.format==='DOUBLES');
+  const rate = arr => arr.length? arr.filter(m=>m.result==='WIN').length/arr.length*100 : 0;
+  return { singlesCount:singles.length, doublesCount:doubles.length, singlesRate:rate(singles), doublesRate:rate(doubles) };
+}
+function computeClubGroups(){
+  const map = {};
+  matches.forEach(m=>{
+    const club = (m.club||'').trim();
+    if(!club) return;
+    if(!map[club]) map[club] = [];
+    map[club].push(m);
+  });
+  return Object.keys(map).map(name=>({name, list:map[name]})).filter(g=>g.list.length>=3);
+}
+function renderClubsChart(){
+  if(matches.length===0) return emptyBox('データがまだありません','試合を登録するとクラブ別分析が表示されます');
+  const f = computeFormatStats();
+  const clubs = computeClubGroups();
+  let html = `<div class="chart-card">
+    <div class="chart-title">👥 シングルス vs ダブルス 勝率比較</div>
+    <div class="chart-sub">対戦形式ごとの成績を比較</div>
+    <div style="display:flex;align-items:flex-end;gap:24px;height:100px;justify-content:center;margin-top:6px;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+        <div class="num" style="font-size:12px;font-weight:800;color:var(--p-primary);">${f.singlesRate.toFixed(0)}%</div>
+        <div style="width:38px;height:${Math.max(f.singlesRate*0.8,4)}px;background:var(--p-primary);border-radius:8px 8px 3px 3px;"></div>
+        <div style="font-size:10px;font-weight:700;color:var(--p-text-secondary);">シングルス (${f.singlesCount})</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+        <div class="num" style="font-size:12px;font-weight:800;color:#10B981;">${f.doublesRate.toFixed(0)}%</div>
+        <div style="width:38px;height:${Math.max(f.doublesRate*0.8,4)}px;background:#10B981;border-radius:8px 8px 3px 3px;"></div>
+        <div style="font-size:10px;font-weight:700;color:var(--p-text-secondary);">ダブルス (${f.doublesCount})</div>
+      </div>
+    </div>
+  </div>`;
+  html += `<div class="chart-card"><div class="chart-title">対抗クラブ別 天敵ランキング</div><div class="chart-sub">同一クラブと3戦以上対戦すると表示されます</div>`;
+  if(clubs.length===0){
+    html += `<div class="disabled-note">十分なクラブ別対戦実績がありません 🤝</div>`;
+  } else {
+    html += clubs.map(c=>{
+      const wins=c.list.filter(m=>m.result==='WIN').length;
+      const losses=c.list.filter(m=>m.result==='LOSE').length;
+      const rate = wins/c.list.length*100;
+      return `<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--p-outline);">
+        <div><div style="font-weight:700;font-size:12px;color:var(--p-text);">${escapeHtml(c.name)}</div><div style="font-size:9.5px;color:var(--p-text-secondary);">${c.list.length}戦 (${wins}勝${losses}敗)</div></div>
+        <span class="num" style="font-weight:800;font-size:12px;color:${rate<40?'#C62828':'var(--p-text-secondary)'};">${rate.toFixed(1)}%</span>
+      </div>`;
+    }).join('');
+  }
+  html += `</div>`;
+  return html;
+}
+
+/* ---- rivals (head-to-head + relative strength gap) ---- */
+function computeOpponentGroups(){
+  const map = {};
+  matches.forEach(m=>{
+    if(!map[m.opponent]) map[m.opponent] = [];
+    map[m.opponent].push(m);
+  });
+  return Object.keys(map)
+    .map(name => ({ name, list: map[name].slice().sort((a,b)=>a.date-b.date) }))
+    .filter(g => g.list.length >= 2);
+}
+function opponentWinRate(g){
+  const wins = g.list.filter(m=>m.result==='WIN').length;
+  return wins / g.list.length * 100;
+}
+function opponentCardHtml(g){
+  const wins = g.list.filter(m=>m.result==='WIN').length;
+  const losses = g.list.filter(m=>m.result==='LOSE').length;
+  const rate = opponentWinRate(g);
+  const chips = g.list.map(m=>{
+    const isWin = m.result==='WIN';
+    const mySets = m.sets.filter(s=>Number(s.my)>Number(s.opp)).length;
+    const oppSets = m.sets.filter(s=>Number(s.opp)>Number(s.my)).length;
+    return `<div style="flex:none;background:${isWin?'#E2F0D9':'#FCE4D6'};color:${isWin?'#385723':'#C00000'};border-radius:12px;padding:7px 10px;text-align:center;min-width:40px;">
+      <div class="num" style="font-weight:800;font-size:12px;">${mySets}-${oppSets}</div>
+      <div style="font-size:8px;font-weight:700;margin-top:1px;">${formatDate(m.date).slice(5)}</div>
+    </div>`;
+  }).join('');
+  return `
+  <div class="pcard" style="margin-bottom:9px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <span style="font-weight:800;font-size:12.5px;color:var(--p-text);">対 ${escapeHtml(g.name)}</span>
+      <span class="num" style="font-size:11px;font-weight:800;color:${rate>=50?'#2E7D32':'#C62828'};">${wins}勝${losses}敗</span>
+    </div>
+    <div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;">${chips}</div>
+  </div>`;
+}
+function computeRelativeGap(g){
+  // Simplified 2-factor approximation of the real app's weighted relative-strength-gap
+  // formula (set-win-rate parity + average point-diff parity). The production
+  // algorithm also folds in close-set rate, blow-out frequency, and a stability/
+  // growth trend term that need longer match history than this demo seeds.
+  const winRate = opponentWinRate(g);
+  const setParity = 1 - Math.min(Math.abs((winRate/100)-0.5)*2, 1);
+  const diffs = [];
+  g.list.forEach(m=>m.sets.forEach(s=>diffs.push(Number(s.my)-Number(s.opp))));
+  const avgDiff = diffs.length ? diffs.reduce((a,b)=>a+b,0)/diffs.length : 0;
+  const pointDiffParity = 1 - Math.min(Math.abs(avgDiff)/12, 1);
+  const gap = Math.round(((setParity*0.5) + (pointDiffParity*0.5)) * 100);
+  let tier;
+  if(gap>=95) tier={label:'ほぼ互角（接戦ライバル）',color:'#10B981'};
+  else if(gap>=85) tier={label:'拮抗した実力差',color:'#06B6D4'};
+  else if(gap>=70) tier={label:'明確な実力差あり',color:'#3B82F6'};
+  else if(gap>=50) tier={label:'かなり実力差あり',color:'#F59E0B'};
+  else tier={label:'一方的な実力差',color:'#EF4444'};
+  return {gap, tier};
+}
+function renderRivalsChart(){
+  const groups = computeOpponentGroups();
+  let html = `<div class="chart-card">
+    <div class="chart-title">⚖️ ライバル相性の見える化</div>
+    <div class="chart-sub">同じ相手と2回以上対戦すると、ここに表示されます</div>
+    <div class="pill-tabs" style="margin-top:8px;">
+      <button class="pill-tab ${rivalSubTab===0?'active':''}" onclick="setRivalSubTab(0)">対戦履歴</button>
+      <button class="pill-tab ${rivalSubTab===1?'active':''}" onclick="setRivalSubTab(1)">相対実力差指数</button>
+    </div>
+  </div>`;
+  if(groups.length===0){
+    return html + emptyBox('ライバルのデータがまだありません','同じ対戦相手と2回以上戦うと、相性分析が解放されます');
+  }
+  if(rivalSubTab===1){
+    html += groups.map(g=>{
+      const r = computeRelativeGap(g);
+      return `<div class="pcard" style="margin-bottom:9px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <span style="font-weight:800;font-size:12.5px;color:var(--p-text);">対 ${escapeHtml(g.name)}</span>
+          <span class="num" style="font-size:13px;font-weight:800;color:${r.tier.color};">${r.gap}</span>
+        </div>
+        <div style="height:7px;border-radius:999px;background:var(--p-surface-variant);overflow:hidden;margin-bottom:6px;"><div style="height:100%;width:${r.gap}%;background:${r.tier.color};"></div></div>
+        <div style="font-size:10.5px;font-weight:700;color:${r.tier.color};">${r.tier.label}</div>
+      </div>`;
+    }).join('');
+    return html;
+  }
+  const strong = groups.filter(g => opponentWinRate(g) >= 50);
+  const weak = groups.filter(g => opponentWinRate(g) < 50);
+  html += `<div class="psec-title" style="margin-top:4px;">🟢 得意な対戦相手</div>`;
+  html += strong.length ? strong.map(opponentCardHtml).join('') : `<div class="disabled-note">得意な対戦相手のデータはまだ十分ではありません。</div>`;
+  html += `<div class="psec-title">🔴 注意すべき対戦相手</div>`;
+  html += weak.length ? weak.map(opponentCardHtml).join('') : `<div class="disabled-note">注意すべき対戦相手のデータはまだ十分ではありません。</div>`;
+  return html;
+}
+
+/* ---- tournament results (real round-based standing detection) ---- */
+function computeTournamentGroups(){
+  const filtered = matches.filter(m => m.tournament && m.tournament.trim());
+  const map = {};
+  filtered.forEach(m=>{
+    const year = new Date(m.date).getFullYear();
+    const key = m.tournament + '||' + year;
+    if(!map[key]) map[key] = { tournament:m.tournament, year, list:[] };
+    map[key].list.push(m);
+  });
+  return Object.values(map).sort((a,b)=> b.year-a.year || b.list.length-a.list.length);
+}
+function computeStanding(list){
+  const finalMatch = list.find(m=>m.round==='決勝');
+  const thirdMatch  = list.find(m=>m.round==='3位決定戦');
+  const semiLoss    = list.find(m=>m.round==='準決勝' && m.result==='LOSE');
+  const quarterLoss = list.find(m=>m.round==='準々決勝' && m.result==='LOSE');
+  if(finalMatch){
+    return finalMatch.result==='WIN' ? {label:'優勝 🏆',bg:'#F0FDF4',text:'#166534'} : {label:'準優勝 🥈',bg:'#FEF3C7',text:'#92400E'};
+  }
+  if(thirdMatch){
+    return thirdMatch.result==='WIN' ? {label:'3位 🥉',bg:'#EFF6FF',text:'#1E40AF'} : {label:'4位 🎖️',bg:'#F3F4F6',text:'#1F2937'};
+  }
+  if(semiLoss)    return {label:'ベスト4 🎖️',bg:'#FAF5FF',text:'#6B21A8'};
+  if(quarterLoss) return {label:'ベスト8 🎖️',bg:'#ECFDF5',text:'#065F46'};
+  const losses = list.filter(m=>m.result==='LOSE' && m.round && ROUND_PRIORITY[m.round]);
+  if(losses.length){
+    const deepest = losses.reduce((a,b)=> ROUND_PRIORITY[b.round]>ROUND_PRIORITY[a.round] ? b : a);
+    return {label:`${deepest.round}敗退`, bg:'#F9FAFB', text:'#4B5563'};
+  }
+  const wins = list.filter(m=>m.result==='WIN').length;
+  if(wins===list.length) return {label:'全勝 📈',bg:'#EDFDF6',text:'#047857'};
+  return {label:'参加',bg:'#E0E0E0',text:'#333333'};
+}
+function tournamentCardHtml(t){
+  const wins = t.list.filter(m=>m.result==='WIN').length;
+  const losses = t.list.filter(m=>m.result==='LOSE').length;
+  const draws = t.list.length - wins - losses;
+  const badge = computeStanding(t.list);
+  const sp = sportOf(t.list[0].sport);
+  const key = t.tournament + '||' + t.year;
+  const isCollapsed = collapsedTournaments.has(key);
+  const matchesHtml = t.list.slice().sort((a,b)=>b.date-a.date).map(matchCardHtml).join('');
+  return `
+  <div class="pcard" style="margin-bottom:9px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;cursor:pointer;" onclick="toggleTournamentExpand('${key}')">
+      <div style="display:flex;align-items:center;gap:7px;min-width:0;">
+        <span style="font-size:15px;flex:none;">${sp.emoji}</span>
+        <div style="min-width:0;">
+          <div style="font-weight:800;font-size:12.5px;color:var(--p-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(t.tournament)}</div>
+          <div style="font-size:9.5px;color:var(--p-text-secondary);font-weight:700;">${t.year}年 ・ ${wins}勝${losses}敗${draws?draws+'分':''}</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;flex:none;">
+        <span style="font-size:10px;font-weight:800;padding:5px 9px;border-radius:999px;background:${badge.bg};color:${badge.text};white-space:nowrap;">${badge.label}</span>
+        <span style="font-size:10px;color:var(--p-text-secondary);">${isCollapsed?'▼':'▲'}</span>
+      </div>
+    </div>
+    ${isCollapsed ? '' : `<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--p-outline);">${matchesHtml}</div>`}
+  </div>`;
+}
+function toggleTournamentExpand(key){
+  if(collapsedTournaments.has(key)) collapsedTournaments.delete(key); else collapsedTournaments.add(key);
+  render();
+}
+function renderTournamentChart(){
+  const groups = computeTournamentGroups();
+  let html = `<div class="chart-card">
+    <div class="chart-title">🏆 大会別成績</div>
+    <div class="chart-sub">大会名とラウンド（詳細情報）を入力すると、優勝・ベスト4などの成績が自動判定されます</div>
+  </div>`;
+  if(groups.length===0){
+    return html + emptyBox('大会の記録がまだありません','大会名を入力して試合を登録しましょう');
+  }
+  html += groups.map(tournamentCardHtml).join('');
+  return html;
+}
+
+/* ---- custom graph (カスタムグラフ) ---- */
+function computeCustomGraphData(dim){
+  const groups = {};
+  matches.forEach(m=>{
+    let key;
+    if(dim==='SPORT') key = sportOf(m.sport).label;
+    else if(dim==='FORMAT') key = (m.format==='DOUBLES') ? 'ダブルス' : 'シングルス';
+    else if(dim==='WEATHER') key = (WEATHER_OPTIONS.find(w=>w[0]===m.weather) || [null,'未設定'])[1];
+    else key = m.round || '通常戦';
+    if(!groups[key]) groups[key] = [];
+    groups[key].push(m);
+  });
+  return Object.keys(groups).map(k=>{
+    const list = groups[k];
+    const wins = list.filter(m=>m.result==='WIN').length;
+    return {label:k, total:list.length, rate:wins/list.length*100};
+  }).sort((a,b)=>b.total-a.total);
+}
+function renderCustomGraphChart(){
+  if(matches.length===0) return emptyBox('データがまだありません','試合を登録するとカスタムグラフが使えます');
+  const dims = [['SPORT','競技'],['FORMAT','対戦形式'],['WEATHER','天候'],['ROUND','ラウンド']];
+  const data = computeCustomGraphData(customGraphDim);
+  let html = `<div class="chart-card">
+    <div class="chart-title">🛠️ カスタムグラフ</div>
+    <div class="chart-sub">軸を選んで、好きな切り口で勝率を比較できます</div>
+    <div class="pill-tabs" style="margin-top:8px;">${dims.map(([code,label])=>`<button class="pill-tab ${customGraphDim===code?'active':''}" onclick="setCustomGraphDim('${code}')">${label}</button>`).join('')}</div>
+  </div>`;
+  html += `<div class="chart-card">` + data.map(d=>`
+    <div style="display:flex;align-items:center;gap:9px;margin-bottom:9px;">
+      <span style="font-size:11px;font-weight:700;width:72px;color:var(--p-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(d.label)}</span>
+      <div style="flex:1;height:7px;border-radius:999px;background:var(--p-surface-variant);overflow:hidden;"><div style="height:100%;width:${d.rate}%;background:#10B981;"></div></div>
+      <span class="num" style="font-size:10.5px;font-weight:700;color:var(--p-text-secondary);width:64px;text-align:right;">${d.total}戦 ${d.rate.toFixed(0)}%</span>
+    </div>`).join('') + `</div>`;
+  return html;
+}
+
+/* ---- environment analysis (環境・用具分析) ---- */
+function computeWeatherStats(){
+  return WEATHER_OPTIONS.map(([code,label])=>{
+    const list = matches.filter(m=>m.weather===code);
+    const wins = list.filter(m=>m.result==='WIN').length;
+    return {label, code, total:list.length, wins, rate: list.length? wins/list.length*100 : 0};
+  });
+}
+function computeNightStats(){
+  const night = matches.filter(m=>m.night);
+  const day = matches.filter(m=>!m.night);
+  const rate = arr => arr.length? arr.filter(m=>m.result==='WIN').length/arr.length*100 : 0;
+  return [
+    {label:'🌃 ナイター', total:night.length, rate:rate(night)},
+    {label:'☀️ 昼間', total:day.length, rate:rate(day)}
+  ];
+}
+function renderEnvironmentChart(){
+  if(matches.length===0) return emptyBox('データがまだありません','試合を登録すると環境別の分析が表示されます');
+  const weather = computeWeatherStats().filter(w=>w.total>0);
+  const night = computeNightStats().filter(n=>n.total>0);
+  let html = `<div class="chart-card"><div class="chart-title">🌤️ 天候別の勝率</div><div class="chart-sub">試合登録時に天候を選ぶと集計されます</div>`;
+  html += weather.length ? weather.map(w=>`
+    <div style="display:flex;align-items:center;gap:9px;margin-bottom:9px;">
+      <span style="font-size:11px;font-weight:700;width:64px;color:var(--p-text);">${w.label}</span>
+      <div style="flex:1;height:7px;border-radius:999px;background:var(--p-surface-variant);overflow:hidden;"><div style="height:100%;width:${w.rate}%;background:#10B981;"></div></div>
+      <span class="num" style="font-size:10.5px;font-weight:700;color:var(--p-text-secondary);width:60px;text-align:right;">${w.wins}/${w.total} (${w.rate.toFixed(0)}%)</span>
+    </div>`).join('') : `<div class="disabled-note">天候データがまだ登録されていません。</div>`;
+  html += `</div>`;
+  html += `<div class="chart-card"><div class="chart-title">🌃 昼間 vs ナイターの勝率</div><div class="chart-sub">試合登録時にナイターを選ぶと集計されます</div>`;
+  html += night.length ? night.map(n=>`
+    <div style="display:flex;align-items:center;gap:9px;margin-bottom:9px;">
+      <span style="font-size:11px;font-weight:700;width:64px;color:var(--p-text);">${n.label}</span>
+      <div style="flex:1;height:7px;border-radius:999px;background:var(--p-surface-variant);overflow:hidden;"><div style="height:100%;width:${n.rate}%;background:#0EA5E9;"></div></div>
+      <span class="num" style="font-size:10.5px;font-weight:700;color:var(--p-text-secondary);width:44px;text-align:right;">${n.rate.toFixed(0)}%</span>
+    </div>`).join('') : `<div class="disabled-note">ナイターデータがまだ登録されていません。</div>`;
+  html += `</div>`;
+  return html;
+}
+
+function renderSettings(){
+  let html = `
+  <div class="psec-title" style="margin-top:2px;">表示テーマ</div>
+  <div class="theme-row">${Object.keys(THEMES).map(id=>`<button class="theme-dot ${currentTheme===id?'active':''}" style="background:${THEMES[id].dot}" onclick="applyTheme('${id}')" aria-label="${THEMES[id].label}に切り替え"></button>`).join('')}</div>
+  <div style="font-size:10px;color:var(--p-text-secondary);margin:2px 0 4px;">実際のアプリと同じ配色から選べます（${THEMES[currentTheme].label}）</div>
+
+  <div class="setting-row">
+    <div class="sr-left"><div class="sr-ico">🌐</div><div><div class="sr-label">言語</div><div class="sr-sub">日本語</div></div></div>
+    <span class="lock-tag">他11言語は正式アプリで対応</span>
+  </div>
+  <div class="setting-row">
+    <div class="sr-left"><div class="sr-ico">🔔</div><div><div class="sr-label">ガット交換リマインダー</div><div class="sr-sub">通知でお知らせ</div></div></div>
+    <span class="lock-tag">正式アプリのみ</span>
+  </div>
+  <div class="setting-row">
+    <div class="sr-left"><div class="sr-ico">☁️</div><div><div class="sr-label">バックアップ</div><div class="sr-sub">端末に安全に保存</div></div></div>
+    <span class="lock-tag">正式アプリのみ</span>
+  </div>
+  <div class="setting-row" style="cursor:pointer;" onclick="toggleHelp()">
+    <div class="sr-left"><div class="sr-ico">❓</div><div><div class="sr-label">使い方ヘルプ</div><div class="sr-sub">${helpOpen?'タップして閉じる':'タップして開く'}</div></div></div>
+  </div>`;
+  if(helpOpen){
+    html += `<div class="disabled-note">① 新規登録タブで試合結果やギアを記録 → ② ホームで最新の成績を確認 → ③ 分析タブで勝率やギアのコンディションをチェック。この体験版でも同じ流れをお試しいただけます。</div>`;
+  }
+  html += `
+  <div class="settings-cta">
+    <h4>正式アプリでもっと便利に</h4>
+    <p>データの永続保存・全ての分析機能・通知機能が使えます。</p>
+    <a href="https://play.google.com/store/apps/details?id=com.aistudio.smashstats.vptzqy" target="_blank" rel="noopener" style="display:inline-block;background:#fff;color:#0C3E63;font-weight:800;font-size:12px;padding:11px 20px;border-radius:999px;text-decoration:none;">Google Playで無料インストール</a>
+  </div>`;
+  return html;
+}
+
+/* ---------- interactions ---------- */
+function render(){
+  renderNavBar();
+  const body = document.getElementById('screenBody');
+  body.innerHTML =
+    tabIndex===0 ? renderDashboard() :
+    tabIndex===1 ? renderMatches() :
+    tabIndex===2 ? renderRegister() :
+    tabIndex===3 ? renderAnalytics() :
+    renderSettings();
+  body.scrollTop = 0;
+  const streak = computeStreak();
+  document.getElementById('streakBadge').textContent = streak>0 ? ('🔥 '+streak+'連勝') : '📋 記録スタート';
+}
+function renderNavBar(){
+  document.getElementById('bottomNav').innerHTML = NAV_ITEMS.map((item,i)=>`
+    <button class="navtab ${i===tabIndex?'active':''}" onclick="setTab(${i})">
+      <span class="nt-icon">${item.icon}</span>
+      <span class="nt-label">${item.label}</span>
+    </button>`).join('');
+}
+function setTab(i){ tabIndex=i; render(); }
+function setRegTab(i){ regTab=i; render(); }
+function setAnalyticsTab(i){ analyticsTab=i; render(); }
+function setMatchFilter(id){ matchFilter=id; render(); }
+function setMatchSport(id){ matchForm.sport=id; render(); }
+function setPlayerSport(id){ playerForm.sport=id; render(); }
+function stepScore(idx, who, delta){
+  const cur = Number(matchForm.sets[idx][who]) || 0;
+  matchForm.sets[idx][who] = Math.max(0, Math.min(99, cur+delta));
+  render();
+}
+function addSet(){ if(matchForm.sets.length<3){ matchForm.sets.push({my:0,opp:0}); render(); } }
+function toggleHelp(){ helpOpen = !helpOpen; render(); }
+function toggleMatchAdvanced(){ matchFormAdvanced = !matchFormAdvanced; render(); }
+function setMatchRound(r){ matchForm.round = (r==='なし') ? '' : r; render(); }
+function setMatchFormat(f){ matchForm.format = f; render(); }
+function setMatchWeather(w){ matchForm.weather = (matchForm.weather===w) ? '' : w; render(); }
+function setMatchNight(v){ matchForm.night = v; render(); }
+function setRivalSubTab(i){ rivalSubTab = i; render(); }
+function setCustomGraphDim(d){ customGraphDim = d; render(); }
+
+function applyTheme(id){
+  currentTheme = id;
+  const screen = document.getElementById('phoneScreen');
+  Object.entries(THEMES[id].vars).forEach(([k,v]) => screen.style.setProperty(k, v));
+  render();
+}
+
+function showToast(msg){
+  const el = document.getElementById('phoneToast');
+  document.getElementById('toastMsg').textContent = msg;
+  el.classList.add('show');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(()=> el.classList.remove('show'), 2200);
+}
+function celebrateIfReady(){
+  saveCount++;
+  if(saveCount>=2 && !modalShown){
+    modalShown = true;
+    setTimeout(()=>{ document.getElementById('completeModal').classList.add('show'); }, 1000);
+  }
+}
+
+/* ---- match detail / edit / delete ---- */
+function openMatchDetail(id){
+  document.getElementById('matchDetailCard').innerHTML = renderMatchDetailCard(id);
+  document.getElementById('matchDetailModal').classList.add('show');
+}
+function closeMatchDetail(){
+  document.getElementById('matchDetailModal').classList.remove('show');
+}
+function renderMatchDetailCard(id){
+  const m = matches.find(x=>x.id===id);
+  if(!m) return '';
+  const isWin = m.result==='WIN';
+  const sp = sportOf(m.sport);
+  const rows = [['競技', sp.emoji+' '+sp.label], ['対戦形式', m.format==='DOUBLES'?'ダブルス':'シングルス']];
+  if(m.round) rows.push(['ラウンド', m.round]);
+  rows.push(['対戦相手', m.opponent]);
+  if(m.club) rows.push(['所属クラブ', m.club]);
+  if(m.tournament) rows.push(['大会名', m.tournament]);
+  const w = WEATHER_OPTIONS.find(w=>w[0]===m.weather);
+  if(w) rows.push(['天候', w[1]]);
+  rows.push(['環境', m.night ? '🌃 ナイター' : '☀️ 昼間']);
+  rows.push(['試合日', formatDate(m.date)]);
+  const setsHtml = m.sets.map((s,i)=>{
+    const sw = Number(s.my) > Number(s.opp);
+    return `<div style="display:flex;justify-content:space-between;align-items:center;background:#F8FAFC;border-radius:10px;padding:8px 10px;margin-bottom:6px;">
+      <span style="font-size:11px;font-weight:700;color:#64748B;">第${i+1}セット</span>
+      <span class="num" style="font-size:13px;font-weight:800;color:${sw?'#2E7D32':'#C62828'};">${s.my} - ${s.opp}</span>
+    </div>`;
+  }).join('');
+  return `
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+    <span style="font-weight:800;font-size:14px;color:#0C3E63;">試合詳細</span>
+    <button class="detail-close-btn" onclick="closeMatchDetail()">✕</button>
+  </div>
+  <div style="display:inline-block;padding:5px 12px;border-radius:999px;font-weight:800;font-size:11px;margin-bottom:10px;background:${isWin?'#E8F5E9':'#FDEEEE'};color:${isWin?'#2E7D32':'#C62828'};">${isWin?'WIN':'LOSE'}</div>
+  ${rows.map(([l,v])=>`<div class="detail-row"><span class="dr-label">${l}</span><span class="dr-val">${escapeHtml(String(v))}</span></div>`).join('')}
+  <div style="font-weight:800;font-size:11.5px;color:#64748B;margin:12px 0 6px;">スコア履歴</div>
+  ${setsHtml}
+  <div style="display:flex;gap:8px;margin-top:14px;">
+    <button class="detail-action-btn" style="background:#0C3E63;color:#fff;" onclick="startEditMatch(${m.id})">編集する ✏️</button>
+    <button class="detail-action-btn" style="background:#FEF2F2;color:#C62828;border:1.4px solid #FCA5A5;" onclick="deleteMatch(${m.id})">削除する 🗑️</button>
+  </div>`;
+}
+function startEditMatch(id){
+  const m = matches.find(x=>x.id===id);
+  if(!m) return;
+  matchForm = {
+    sport:m.sport, opponent:m.opponent, tournament:m.tournament||'',
+    date:new Date(m.date).toISOString().slice(0,10),
+    sets:m.sets.map(s=>({my:s.my, opp:s.opp})),
+    round:m.round||'', format:m.format||'SINGLES', club:m.club||'', weather:m.weather||'', night:!!m.night,
+    editingId:m.id
+  };
+  matchFormAdvanced = !!(m.round || m.club || m.weather || m.night || m.format==='DOUBLES');
+  closeMatchDetail();
+  regTab = 0;
+  tabIndex = 2;
+  render();
+}
+function deleteMatch(id){
+  if(!confirm('この試合記録を削除しますか？')) return;
+  matches = matches.filter(m=>m.id!==id);
+  closeMatchDetail();
+  render();
+}
+
+/* ---- gear detail / edit / delete ---- */
+function openGearDetail(id){
+  document.getElementById('gearDetailCard').innerHTML = renderGearDetailCard(id);
+  document.getElementById('gearDetailModal').classList.add('show');
+}
+function closeGearDetail(){
+  document.getElementById('gearDetailModal').classList.remove('show');
+}
+function renderGearDetailCard(id){
+  const g = gears.find(x=>x.id===id);
+  if(!g) return '';
+  const sp = sportOf(g.sport);
+  const days = Math.max(0, Math.floor((Date.now()-g.lastMaintenance)/86400000));
+  const rec = RECOMMENDED_DAYS[g.sport] || 45;
+  const rows = [['競技', sp.emoji+' '+sp.label], ['ラケット名', g.racket]];
+  if(g.string) rows.push(['ガット/ストリング', g.string]);
+  if(g.tension) rows.push(['テンション', g.tension+' '+(sp.tensionUnit||'lbs')]);
+  rows.push(['最終メンテナンス日', formatDate(g.lastMaintenance)]);
+  rows.push(['使用日数', `${days}日目（交換目安 ${rec}日）`]);
+  return `
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+    <span style="font-weight:800;font-size:14px;color:#0C3E63;">用具詳細</span>
+    <button class="detail-close-btn" onclick="closeGearDetail()">✕</button>
+  </div>
+  ${rows.map(([l,v])=>`<div class="detail-row"><span class="dr-label">${l}</span><span class="dr-val">${escapeHtml(String(v))}</span></div>`).join('')}
+  <div style="display:flex;gap:8px;margin-top:14px;">
+    <button class="detail-action-btn" style="background:#0C3E63;color:#fff;" onclick="startEditGear(${g.id})">編集する ✏️</button>
+    <button class="detail-action-btn" style="background:#FEF2F2;color:#C62828;border:1.4px solid #FCA5A5;" onclick="deleteGear(${g.id})">削除する 🗑️</button>
+  </div>`;
+}
+function startEditGear(id){
+  const g = gears.find(x=>x.id===id);
+  if(!g) return;
+  gearForm = {
+    sport:g.sport, racket:g.racket, string:g.string||'',
+    tension:g.tension||defaultTension(g.sport),
+    lastMaintenance:new Date(g.lastMaintenance).toISOString().slice(0,10),
+    editingId:g.id
+  };
+  closeGearDetail();
+  regTab = 1;
+  tabIndex = 2;
+  render();
+}
+function deleteGear(id){
+  if(!confirm('この用具を削除しますか？')) return;
+  gears = gears.filter(g=>g.id!==id);
+  closeGearDetail();
+  render();
+}
+
+function submitMatch(){
+  const f = matchForm;
+  const sets = f.sets.map(s=>({my:Number(s.my)||0, opp:Number(s.opp)||0}));
+  let mySets=0, oppSets=0;
+  sets.forEach(s=>{ if(s.my>s.opp) mySets++; else if(s.opp>s.my) oppSets++; });
+  const result = mySets>oppSets ? 'WIN' : (oppSets>mySets ? 'LOSE' : 'DRAW');
+  const payload = {
+    sport: f.sport,
+    opponent: f.opponent.trim() || '対戦相手',
+    club: f.club.trim(),
+    tournament: f.tournament.trim(),
+    round: f.round,
+    format: f.format,
+    weather: f.weather,
+    night: f.night,
+    date: new Date(f.date).getTime() || Date.now(),
+    sets, result
+  };
+  if(f.editingId){
+    const idx = matches.findIndex(m=>m.id===f.editingId);
+    if(idx>-1) matches[idx] = { ...matches[idx], ...payload };
+    showToast('試合内容を更新しました！');
+  } else {
+    matches.push({ id: Date.now(), ...payload });
+    showToast('試合戦績を登録しました！');
+    celebrateIfReady();
+  }
+  matchForm = { sport:f.sport, opponent:'', tournament:'', date:todayStr(), sets:[{my:0,opp:0}], round:'', format:'SINGLES', club:'', weather:'', night:false, editingId:null };
+  matchFormAdvanced = false;
+  tabIndex = 0;
+  render();
+}
+
+function submitGear(){
+  const f = gearForm;
+  if(!f.racket.trim()){
+    showToast('ラケット名を入力してください');
+    const inp = document.getElementById('racketNameInput');
+    if(inp) inp.focus();
+    return;
+  }
+  const sp = sportOf(f.sport);
+  const payload = {
+    sport: f.sport,
+    racket: f.racket.trim(),
+    string: f.string ? f.string.trim() : '',
+    tension: sp.hasString ? Number(f.tension) : null,
+    lastMaintenance: new Date(f.lastMaintenance).getTime() || Date.now()
+  };
+  if(f.editingId){
+    const idx = gears.findIndex(g=>g.id===f.editingId);
+    if(idx>-1) gears[idx] = { ...gears[idx], ...payload };
+    showToast('用具情報を更新しました！');
+  } else {
+    gears.push({ id: Date.now(), ...payload });
+    showToast('ラケット用具を登録完了！');
+    celebrateIfReady();
+  }
+  gearForm = { sport:f.sport, racket:'', string:'', tension:defaultTension(f.sport), lastMaintenance:todayStr(), editingId:null };
+  tabIndex = 0;
+  render();
+}
+
+function submitPlayer(){
+  const f = playerForm;
+  if(!f.name.trim()){
+    showToast('選手名を入力してください');
+    return;
+  }
+  players.push({...f, name:f.name.trim()});
+  playerForm = { name:'', sport:'BADMINTON', team:'' };
+  showToast('新規選手マスターを登録しました！');
+  celebrateIfReady();
+  tabIndex = 0;
+  render();
+}
+
+/* ---------- boot ---------- */
+function initPhone(){
+  const tmpl = document.getElementById('phoneTemplate');
+  document.getElementById('phoneMount').appendChild(tmpl.content.cloneNode(true));
+  const dismissBtn = document.getElementById('dismissModalBtn');
+  if(dismissBtn){
+    dismissBtn.addEventListener('click', ()=> document.getElementById('completeModal').classList.remove('show'));
+  }
+  // Explicitly set --p-* custom properties on #phoneScreen at boot (not just on
+  // theme switch). Without this, every var(--p-xxx) reference with no literal
+  // hex fallback resolves to nothing until the user first opens Settings.
+  applyTheme('standard');
+}
+document.addEventListener('DOMContentLoaded', initPhone);
+
+window.addEventListener('scroll', ()=>{
+  const fab = document.getElementById('fabCta');
+  if(!fab) return;
+  if(window.scrollY > 720) fab.classList.add('show'); else fab.classList.remove('show');
+}, {passive:true});
+</script>
+</body>
+</html>
